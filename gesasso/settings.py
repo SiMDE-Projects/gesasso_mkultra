@@ -131,8 +131,8 @@ OAUTH_URL_WHITELISTS = ["/admin"]
 OAUTH_CLIENT_NAME = 'portailutc'
 
 OAUTH_CLIENT = {
-    'client_id': '',
-    'client_secret': '',
+    'client_id': config.getstr("OAUTH_CLIENT_ID"),
+    'client_secret': config.getstr("OAUTH_CLIENT_SECRET"),
     'access_token_url': 'https://assos.utc.fr/oauth/token',
     'authorize_url': 'https://assos.utc.fr/oauth/authorize',
     'api_base_url': 'https://assos.utc.fr/api/v1',
