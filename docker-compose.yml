@@ -14,6 +14,8 @@ services:
       GESASSO_DJANGO_DEBUG: "True"
       GESASSO_DJANGO_ALLOWED_HOSTS: "*"
       GESASSO_DB_DEFAULT: "mysql://gesasso:gesasso@db/gesasso"
+      GESASSO_OAUTH_CLIENT_ID: "YOUR_ID"
+      GESASSO_OAUTH_CLIENT_SECRET: "YOUR_SECRET"
       GESASSO_LOG_LEVEL: "DEBUG"
     ports:
       - "8003:8003"
