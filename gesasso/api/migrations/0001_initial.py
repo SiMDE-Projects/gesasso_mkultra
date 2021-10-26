@@ -9,67 +9,124 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='TaskType',
+            name="TaskType",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('updated', models.DateTimeField(auto_now=True)),
-                ('removed', models.DateTimeField(blank=True, default=None, null=True)),
-                ('name', models.CharField(max_length=150, unique=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                ("updated", models.DateTimeField(auto_now=True)),
+                ("removed", models.DateTimeField(blank=True, default=None, null=True)),
+                ("name", models.CharField(max_length=150, unique=True)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=(gesasso.api.utils.TimeStampableMixin, gesasso.api.utils.GetFreshMixin, models.Model),
+            bases=(
+                gesasso.api.utils.TimeStampableMixin,
+                gesasso.api.utils.GetFreshMixin,
+                models.Model,
+            ),
         ),
         migrations.CreateModel(
-            name='Task',
+            name="Task",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('updated', models.DateTimeField(auto_now=True)),
-                ('removed', models.DateTimeField(blank=True, default=None, null=True)),
-                ('name', models.CharField(max_length=150, unique=True)),
-                ('type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.tasktype')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                ("updated", models.DateTimeField(auto_now=True)),
+                ("removed", models.DateTimeField(blank=True, default=None, null=True)),
+                ("name", models.CharField(max_length=150, unique=True)),
+                (
+                    "type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="api.tasktype"
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=(gesasso.api.utils.TimeStampableMixin, gesasso.api.utils.GetFreshMixin, models.Model),
+            bases=(
+                gesasso.api.utils.TimeStampableMixin,
+                gesasso.api.utils.GetFreshMixin,
+                models.Model,
+            ),
         ),
         migrations.CreateModel(
-            name='ActionType',
+            name="ActionType",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('updated', models.DateTimeField(auto_now=True)),
-                ('removed', models.DateTimeField(blank=True, default=None, null=True)),
-                ('name', models.CharField(max_length=150, unique=True)),
-                ('tasks', models.ManyToManyField(to='api.TaskType')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                ("updated", models.DateTimeField(auto_now=True)),
+                ("removed", models.DateTimeField(blank=True, default=None, null=True)),
+                ("name", models.CharField(max_length=150, unique=True)),
+                ("tasks", models.ManyToManyField(to="api.TaskType")),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=(gesasso.api.utils.TimeStampableMixin, gesasso.api.utils.GetFreshMixin, models.Model),
+            bases=(
+                gesasso.api.utils.TimeStampableMixin,
+                gesasso.api.utils.GetFreshMixin,
+                models.Model,
+            ),
         ),
         migrations.CreateModel(
-            name='Action',
+            name="Action",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('updated', models.DateTimeField(auto_now=True)),
-                ('removed', models.DateTimeField(blank=True, default=None, null=True)),
-                ('name', models.CharField(max_length=150, unique=True)),
-                ('type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.actiontype')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                ("updated", models.DateTimeField(auto_now=True)),
+                ("removed", models.DateTimeField(blank=True, default=None, null=True)),
+                ("name", models.CharField(max_length=150, unique=True)),
+                (
+                    "type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="api.actiontype"
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=(gesasso.api.utils.TimeStampableMixin, gesasso.api.utils.GetFreshMixin, models.Model),
+            bases=(
+                gesasso.api.utils.TimeStampableMixin,
+                gesasso.api.utils.GetFreshMixin,
+                models.Model,
+            ),
         ),
     ]
