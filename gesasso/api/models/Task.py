@@ -4,5 +4,6 @@ from gesasso.api.models.TaskType import TaskType
 
 
 class Task(TimeStampable):
-    name = models.CharField(unique=True, max_length=150)
-    type = models.ForeignKey(TaskType, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
+    params = models.JSONField()
+    type = models.ForeignKey("TaskType", on_delete=models.CASCADE)
