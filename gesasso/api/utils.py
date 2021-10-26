@@ -100,11 +100,11 @@ class TimeStampableMixin:
 
 
 class TimeStampable(TimeStampableMixin, Model):
+    objects = TimeStampableManager()
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     removed = models.DateTimeField(default=None, null=True, blank=True)
-
-    objects = TimeStampableManager()
 
     class Meta:
         abstract = True
