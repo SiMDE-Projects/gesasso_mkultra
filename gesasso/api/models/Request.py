@@ -1,6 +1,5 @@
 from django.db import models
 from gesasso.api.utils import TimeStampable
-from gesasso.api.models.ActionType import ActionType
 
 
 class Request(TimeStampable):
@@ -15,8 +14,10 @@ class Request(TimeStampable):
 
     id = models.AutoField(primary_key=True)
     title = models.CharField(blank=False, null=False, max_length=150)
-    type = models.ForeignKey(ActionType, on_delete=models.CASCADE)
+    type = models.ForeignKey("ActionType", on_delete=models.CASCADE)
     description = models.TextField()
     user = models.CharField(blank=False, null=False, max_length=150)
-    asso = models.CharField(max_length=150)
-    status = models.PositiveSmallIntegerField(choices=Status.choices, default=Status.OPEN)
+    asso = models.ForeignKey("Asso", on_delete=models.CASCADE)
+    status = models.PositiveSmallIntegerField(
+        choices=Status.choices, default=Status.OPEN
+    )

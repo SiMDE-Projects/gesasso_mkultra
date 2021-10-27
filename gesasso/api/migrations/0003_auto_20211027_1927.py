@@ -9,71 +9,104 @@ import gesasso.api.utils
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('auth', '0012_alter_user_first_name_max_length'),
-        ('api', '0002_add_superuser'),
+        ("auth", "0012_alter_user_first_name_max_length"),
+        ("api", "0002_add_superuser"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='PortailUser',
+            name="PortailUser",
             fields=[
-                ('user_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='auth.user')),
-                ('uuid', models.UUIDField()),
-                ('from_portail', models.BooleanField(default=False)),
-                ('image', models.CharField(max_length=255)),
+                (
+                    "user_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="auth.user",
+                    ),
+                ),
+                ("uuid", models.UUIDField()),
+                ("from_portail", models.BooleanField(default=False)),
+                ("image", models.CharField(max_length=255)),
             ],
             options={
-                'verbose_name': 'user',
-                'verbose_name_plural': 'users',
-                'abstract': False,
+                "verbose_name": "user",
+                "verbose_name_plural": "users",
+                "abstract": False,
             },
-            bases=('auth.user',),
+            bases=("auth.user",),
             managers=[
-                ('objects', django.contrib.auth.models.UserManager()),
+                ("objects", django.contrib.auth.models.UserManager()),
             ],
         ),
         migrations.AlterField(
-            model_name='action',
-            name='id',
+            model_name="action",
+            name="id",
             field=models.AutoField(primary_key=True, serialize=False),
         ),
         migrations.AlterField(
-            model_name='actiontype',
-            name='id',
+            model_name="actiontype",
+            name="id",
             field=models.AutoField(primary_key=True, serialize=False),
         ),
         migrations.AlterField(
-            model_name='actiontype',
-            name='tasks',
-            field=models.ManyToManyField(blank=True, to='api.Task'),
+            model_name="actiontype",
+            name="tasks",
+            field=models.ManyToManyField(blank=True, to="api.Task"),
         ),
         migrations.AlterField(
-            model_name='task',
-            name='id',
+            model_name="task",
+            name="id",
             field=models.AutoField(primary_key=True, serialize=False),
         ),
         migrations.AlterField(
-            model_name='tasktype',
-            name='id',
+            model_name="tasktype",
+            name="id",
             field=models.AutoField(primary_key=True, serialize=False),
         ),
         migrations.CreateModel(
-            name='Request',
+            name="Request",
             fields=[
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('updated', models.DateTimeField(auto_now=True)),
-                ('removed', models.DateTimeField(blank=True, default=None, null=True)),
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('title', models.CharField(max_length=150)),
-                ('description', models.TextField()),
-                ('user', models.CharField(max_length=150)),
-                ('asso', models.CharField(max_length=150)),
-                ('status', models.PositiveSmallIntegerField(choices=[(1, 'OPEN'), (2, 'ASSIGNED'), (3, 'CLOSED'), (4, 'DONE'), (5, 'WAITING_TECH'), (6, 'WAITING_FOR_TIERS_SERVICE'), (7, 'WAITING_FOR_CUSTOMER')], default=1)),
-                ('type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.actiontype')),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                ("updated", models.DateTimeField(auto_now=True)),
+                ("removed", models.DateTimeField(blank=True, default=None, null=True)),
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                ("title", models.CharField(max_length=150)),
+                ("description", models.TextField()),
+                ("user", models.CharField(max_length=150)),
+                ("asso", models.CharField(max_length=150)),
+                (
+                    "status",
+                    models.PositiveSmallIntegerField(
+                        choices=[
+                            (1, "OPEN"),
+                            (2, "ASSIGNED"),
+                            (3, "CLOSED"),
+                            (4, "DONE"),
+                            (5, "WAITING_TECH"),
+                            (6, "WAITING_FOR_TIERS_SERVICE"),
+                            (7, "WAITING_FOR_CUSTOMER"),
+                        ],
+                        default=1,
+                    ),
+                ),
+                (
+                    "type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="api.actiontype"
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=(gesasso.api.utils.TimeStampableMixin, gesasso.api.utils.GetFreshMixin, models.Model),
+            bases=(
+                gesasso.api.utils.TimeStampableMixin,
+                gesasso.api.utils.GetFreshMixin,
+                models.Model,
+            ),
         ),
     ]
