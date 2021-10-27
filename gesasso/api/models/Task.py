@@ -1,6 +1,5 @@
 from django.db import models
 from gesasso.api.utils import TimeStampable
-from gesasso.api.models.TaskType import TaskType
 
 
 class Task(TimeStampable):

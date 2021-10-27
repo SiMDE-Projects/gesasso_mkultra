@@ -19,3 +19,12 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "email",
             "groups",
         ]
+
+
+class AssoSerializer(serializers.Serializer):
+    def update(self, instance, validated_data):
+        pass
+
+    def create(self, validated_data):
+        print(validated_data)
+        pass
