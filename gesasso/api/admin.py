@@ -1,10 +1,19 @@
 from django.contrib import admin
-from gesasso.api.models import Action, ActionType, Task, TaskType, Request
+from gesasso.api.models import Action, ActionType, Task, TaskType, Request, Asso
 
 
-@admin.register(ActionType, TaskType, Task, Request)
+@admin.register(ActionType, TaskType, Task, Asso)
 class CommonAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(Request)
+class RequestAdmin(admin.ModelAdmin):
+    def get_form(self, request, obj=None, change=False, **kwargs):
+        form = super(RequestAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['asso'].label_from_instance = lambda obj: "{} ({})".format(obj.login, obj.shortname)
+        form.base_fields['type'].label_from_instance = lambda obj: obj.name
+        return form
 
 
 class TaskTypeInline(admin.StackedInline):
@@ -25,18 +34,3 @@ class ActionAdmin(admin.ModelAdmin):
 
     list_display = ("name", get_actiontype_name, "created", "updated")
     pass
-
-
-# class MembershipInline(admin.TabularInline):
-#     model = Group.members.through
-#
-# class PersonAdmin(admin.ModelAdmin):
-#     inlines = [
-#         MembershipInline,
-#     ]
-#
-# class GroupAdmin(admin.ModelAdmin):
-#     inlines = [
-#         MembershipInline,
-#     ]
-#     exclude = ('members',)
