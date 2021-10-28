@@ -317,6 +317,163 @@ paths:
           description: ''
       tags:
       - groups
+  /assos/:
+    get:
+      operationId: listAssos
+      description: ''
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Asso'
+          description: ''
+      tags:
+      - assos
+    post:
+      operationId: createAsso
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Asso'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Asso'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Asso'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asso'
+          description: ''
+      tags:
+      - assos
+  /assos/{id}/:
+    get:
+      operationId: retrieveAsso
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A UUID string identifying this asso.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asso'
+          description: ''
+      tags:
+      - assos
+    put:
+      operationId: updateAsso
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A UUID string identifying this asso.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Asso'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Asso'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Asso'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asso'
+          description: ''
+      tags:
+      - assos
+    patch:
+      operationId: partialUpdateAsso
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A UUID string identifying this asso.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Asso'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Asso'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Asso'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asso'
+          description: ''
+      tags:
+      - assos
+    delete:
+      operationId: destroyAsso
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A UUID string identifying this asso.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - assos
 components:
   schemas:
     User:
@@ -363,3 +520,6 @@ components:
           maxLength: 150
       required:
       - name
+    Asso:
+      type: object
+      properties: {}
