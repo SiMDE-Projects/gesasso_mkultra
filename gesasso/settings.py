@@ -51,6 +51,7 @@ MIDDLEWARE = [
 ]
 
 AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
     'gesasso.api.middlewares.RemoteAuthBackend',
 ]
 
