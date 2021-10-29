@@ -33,19 +33,32 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "storages",
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "gesasso.api.middlewares.oauth.OAuthMiddleware",
+    "gesasso.api.middlewares.OAuthMiddleware",
+    "django.contrib.auth.middleware.RemoteUserMiddleware",
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'gesasso.api.middlewares.RemoteAuthBackend',
+]
+
+if DEBUG:
+    import socket  # only if you haven't already imported this
+
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + ['127.0.0.1', '10.0.2.2']
 
 ROOT_URLCONF = "gesasso.urls"
 

@@ -29,6 +29,7 @@ Authlib>=0.15.5
 black==21.9b0
 flake8==4.0.1
 ipython~=7.16
+django-debug-toolbar>=1.11.1
 
 # test
 coverage~=5.3

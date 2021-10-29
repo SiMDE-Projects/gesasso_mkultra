@@ -31,7 +31,9 @@ class OAuthMiddleware(MiddlewareMixin):
         if request.path.startswith("/oauth/callback"):
             self.clear_session(request)
             request.session["token"] = sso_client.authorize_access_token(request)
-            if self.get_current_user(sso_client, request) is not None:
+            current_user = self.get_current_user(sso_client, request)
+            if current_user is not None:
+                request.META['REMOTE_USER'] = current_user
                 redirect_uri = request.session.pop("redirect_uri", None)
                 if redirect_uri is not None:
                     return redirect(redirect_uri)
@@ -40,6 +42,7 @@ class OAuthMiddleware(MiddlewareMixin):
         if request.session.get("token", None) is not None:
             current_user = self.get_current_user(sso_client, request)
             if current_user is not None:
+                request.META['REMOTE_USER'] = current_user
                 return self.get_response(request)
         # remember redirect URI for redirecting to the original URL.
         request.session["redirect_uri"] = request.path
