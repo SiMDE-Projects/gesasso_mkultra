@@ -1,9 +1,14 @@
+import json
 import logging
 
 from django.db import models
 from django.utils import timezone
 
 logger = logging.getLogger(__name__)
+
+
+def print_json(obj):
+    print(json.dumps(obj, indent=4, sort_keys=True))
 
 
 class QuerySet(models.QuerySet):

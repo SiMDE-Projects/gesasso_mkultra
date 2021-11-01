@@ -1,10 +1,15 @@
+import logging
+
 from authlib.integrations.base_client import OAuthError
 from authlib.integrations.django_client import OAuth
 from authlib.oauth2.rfc6749 import OAuth2Token
 from django.shortcuts import redirect
 from django.utils.deprecation import MiddlewareMixin
+
 from gesasso import settings
 from gesasso.api import views
+
+logger = logging.getLogger(__name__)
 
 
 class OAuthMiddleware(MiddlewareMixin):
@@ -33,7 +38,7 @@ class OAuthMiddleware(MiddlewareMixin):
             request.session["token"] = sso_client.authorize_access_token(request)
             current_user = self.get_current_user(sso_client, request)
             if current_user is not None:
-                request.META['REMOTE_USER'] = current_user
+                request.META["REMOTE_USER"] = current_user
                 redirect_uri = request.session.pop("redirect_uri", None)
                 if redirect_uri is not None:
                     return redirect(redirect_uri)
@@ -42,7 +47,7 @@ class OAuthMiddleware(MiddlewareMixin):
         if request.session.get("token", None) is not None:
             current_user = self.get_current_user(sso_client, request)
             if current_user is not None:
-                request.META['REMOTE_USER'] = current_user
+                request.META["REMOTE_USER"] = current_user
                 return self.get_response(request)
         # remember redirect URI for redirecting to the original URL.
         request.session["redirect_uri"] = request.path
@@ -66,11 +71,15 @@ class OAuthMiddleware(MiddlewareMixin):
             res = sso_client.get(
                 settings.OAUTH_CLIENT["userinfo_endpoint"], token=OAuth2Token(token)
             )
+            assos = sso_client.get(
+                "/api/v1/user/assos", token=OAuth2Token(token)
+            ).json()
             if res.ok:
                 request.session["user"] = res.json()
-                return res.json()
+                request.session["user"]["assos"] = assos
+                return request.session["user"]
         except OAuthError as e:
-            print(e)
+            logger.error(e)
         return None
 
     @staticmethod
@@ -82,4 +91,4 @@ class OAuthMiddleware(MiddlewareMixin):
             pass
 
     def __del__(self):
-        print("destroyed")
+        logger.error("destroyed")
