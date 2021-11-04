@@ -1,0 +1,78 @@
+# from django.test import TestCase
+from uuid import UUID
+
+import responses
+from gesasso.api.factories import RequestFactory
+import pytest
+from rest_framework.test import APIRequestFactory
+
+from gesasso.api.models import Asso
+from gesasso.api.views import AssosViewSet
+
+
+@pytest.fixture(scope='session')
+def api_rf():
+    return APIRequestFactory()
+
+
+@pytest.fixture
+def request_data():
+    return RequestFactory()
+
+
+@pytest.fixture(scope='session')
+def _request_mock(_request_mock_portail_auth):
+    class RequestsMock(responses.RequestsMock):
+        @property
+        def calls(self):
+            return [c for c in self._calls
+                    if c.request.url != _request_mock_portail_auth.url]
+
+    return RequestsMock()
+
+
+@pytest.fixture(scope='session')
+def _request_mock_portail_auth():
+    response = responses.Response('POST', "https://assos.utc.fr/oauth/token",
+                                  body='{"access_token": "foobar"}')
+    response.call_count += 1
+    return response
+
+
+@pytest.fixture
+def request_mock(_request_mock, _request_mock_portail_auth):
+    _request_mock.add(_request_mock_portail_auth)
+    with _request_mock as rsps:
+        yield rsps
+
+
+@pytest.fixture
+def asso_viewset_get():
+    return AssosViewSet.as_view(
+        {
+            'get': 'list',
+        },
+        permission_classes=[],
+        authentication_classes=[]
+    )
+
+
+@pytest.mark.django_db
+def test_get_assos(api_rf, settings, request_mock, asso_viewset_get):
+    """
+    Test that the get_request function returns the correct request
+    """
+    request = api_rf.get('/')
+    request_mock.add(
+        'GET',
+        f'{settings.OAUTH_CLIENT["api_base_url"]}/assos',
+        json=[{"id": "6dff8940-3af5-11e9-a76b-d5944de919ff","login": "bde","shortname": "BDE-UTC","name": "Bureau Des Etudiants de l\'UTC","image": "https://assos.utc.fr/images/assos/6dff8940-3af5-11e9-a76b-d5944de919ff/1586527271.png","deleted_at": None,"in_cemetery_at": None,"parent": None}])
+    response = asso_viewset_get(request)
+    assert response.status_code == 200
+    assert response.data == [{"id": "6dff8940-3af5-11e9-a76b-d5944de919ff","login": "bde","shortname": "BDE-UTC","name": "Bureau Des Etudiants de l\'UTC","image": "https://assos.utc.fr/images/assos/6dff8940-3af5-11e9-a76b-d5944de919ff/1586527271.png","deleted_at": None,"in_cemetery_at": None,"parent": None}]
+    assert Asso.objects.all().count() == 1
+    asso = Asso.objects.first()
+    assert asso.name == "Bureau Des Etudiants de l'UTC"
+    assert asso.login == "bde"
+    assert asso.shortname == "BDE-UTC"
+    assert asso.id == UUID("6dff8940-3af5-11e9-a76b-d5944de919ff")
