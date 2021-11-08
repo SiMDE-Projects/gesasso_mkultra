@@ -2,3 +2,4 @@
 venv
 docker-compose.override.yml
 .env
+.pytest_cache

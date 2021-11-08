@@ -25,7 +25,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class AssoSerializer(serializers.HyperlinkedModelSerializer):
+class AssoSerializer(serializers.ModelSerializer):
     parent = serializers.SerializerMethodField(required=False, method_name="get_parent")
 
     def get_parent(self, obj):
@@ -35,7 +35,7 @@ class AssoSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Asso
-        fields = ["url", "login", "shortname", "name", "parent"]
+        fields = ["id", "login", "shortname", "parent"]
 
 
 class ActionSerializer(serializers.HyperlinkedModelSerializer):

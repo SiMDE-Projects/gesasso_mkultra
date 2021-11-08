@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "storages",
-    # "debug_toolbar",
+    "debug_toolbar",
     "gesasso.api",
 ]
 
@@ -44,7 +44,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    # "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -64,6 +64,13 @@ if DEBUG:
 
     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
     INTERNAL_IPS = [ip[:-1] + "1" for ip in ips] + ["127.0.0.1", "10.0.2.2"]
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
+    }
+}
 
 ROOT_URLCONF = "gesasso.urls"
 
@@ -143,6 +150,12 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+DISABLE_SYNC_ASSOS = config.getbool(
+    "DISABLE_SYNC_ASSOS",
+    False,
+    "Disable calls to resources server" "for Asso's data sync",
+)
+
 # OAuth Settings
 OAUTH_URL_WHITELISTS = ["/__debug__"]
 
@@ -161,7 +174,7 @@ OAUTH_CLIENT = {
     "userinfo_endpoint": "/api/v1/user",
 }
 
-LOGLEVEL = os.environ.get("LOGLEVEL", "DEBUG").upper()
+LOGLEVEL = os.environ.get("LOGLEVEL", "INFO").upper()
 
 logging.config.dictConfig(
     {
@@ -185,11 +198,11 @@ logging.config.dictConfig(
         "loggers": {
             # default for all undefined Python modules
             "": {
-                "level": "DEBUG",
+                "level": LOGLEVEL,
                 "handlers": ["console"],
             },
             # Our application code
-            "app": {
+            "gesasso": {
                 "level": LOGLEVEL,
                 "handlers": ["console"],
                 # Avoid double logging because of root logger

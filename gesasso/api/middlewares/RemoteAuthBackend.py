@@ -13,10 +13,11 @@ class RemoteAuthBackend(RemoteUserBackend):
         user.email = remote_user["email"]
         for asso in remote_user["assos"]:
             if (
-                asso["login"] == "simde"
-                and asso["pivot"]["role_id"] == "5e12fc00-3af5-11e9-a2eb-bda2ff28d348"
+                asso["login"]
+                == "simde"
+                # and asso["pivot"]["role_id"] == "5e12fc00-3af5-11e9-a2eb-bda2ff28d348"
             ):
-                logger.info("User is a simde's admin")
+                logger.info("User is a simde's member")
                 user.is_staff = True
                 user.is_superuser = True
         user.save()
