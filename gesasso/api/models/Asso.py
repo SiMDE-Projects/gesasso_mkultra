@@ -11,4 +11,10 @@ class Asso(Model):
     login = models.CharField(max_length=30)
     shortname = models.CharField(max_length=150)
     name = models.CharField(max_length=150)
-    parent = models.ForeignKey("self", on_delete=models.SET_NULL, null=True)
+    parent = models.ForeignKey(
+        "self",
+        on_delete=models.DO_NOTHING,
+        null=True,
+        blank=True,
+        related_name="children",
+    )

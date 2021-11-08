@@ -19,6 +19,7 @@ class Request(TimeStampable):
     id = models.AutoField(primary_key=True)
     title = models.CharField(blank=False, null=False, max_length=150)
     description = models.TextField()
+    due_date = models.DateTimeField(blank=True, null=True)
     user = models.CharField(blank=False, null=False, max_length=150)
     asso = models.ForeignKey("Asso", on_delete=models.CASCADE)
     status = models.PositiveSmallIntegerField(
