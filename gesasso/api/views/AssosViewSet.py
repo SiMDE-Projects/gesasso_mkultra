@@ -20,11 +20,12 @@ class AssosViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = AssoSerializer
 
     def list(self, request, *args, **kwargs):
-        if not settings.DISABLE_SYNC_ASSOS:
+        if kwargs["force"] or not settings.DISABLE_SYNC_ASSOS:
             self.sync_assos()
         return Response(self.queryset.values())
 
-    def sync_assos(self):
+    @staticmethod
+    def sync_assos():
         r = requests.get("%s/assos" % settings.OAUTH_CLIENT["api_base_url"])
         datas = r.json()
         existing_datas = Asso.objects.all().values()
