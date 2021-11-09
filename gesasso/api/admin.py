@@ -88,7 +88,7 @@ class UserAdmin(admin.ModelAdmin):
         return False
 
     fieldsets = (
-        (None, {"fields": ("username", "password")}),
+        (None, {"fields": ("username",)}),
         (_("Personal info"), {"fields": ("first_name", "last_name", "email")}),
         (
             _("Permissions"),
@@ -104,15 +104,6 @@ class UserAdmin(admin.ModelAdmin):
         ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
-    add_fieldsets = (
-        (
-            None,
-            {
-                "classes": ("wide",),
-                "fields": ("username", "password1", "password2"),
-            },
-        ),
-    )
     list_display = (
         "username",
         "email",
@@ -123,26 +114,20 @@ class UserAdmin(admin.ModelAdmin):
     )
     list_filter = ("is_staff", "is_superuser", "is_active", "groups")
     search_fields = ("username", "first_name", "last_name", "email")
-    ordering = ("username",)
+    readonly_fields = (
+        "last_login",
+        "date_joined",
+        "is_active",
+        "username",
+        "first_name",
+        "last_name",
+        "email",
+    )
+    ordering = ("last_name", "first_name")
     filter_horizontal = (
         "groups",
         "user_permissions",
     )
-
-    def get_fieldsets(self, request, obj=None):
-        if not obj:
-            return self.add_fieldsets
-        return super().get_fieldsets(request, obj)
-
-    def get_form(self, request, obj=None, **kwargs):
-        """
-        Use special form during user creation
-        """
-        defaults = {}
-        if obj is None:
-            defaults["form"] = self.add_form
-        defaults.update(kwargs)
-        return super().get_form(request, obj, **defaults)
 
     def lookup_allowed(self, lookup, value):
         # Don't allow lookups involving passwords.
