@@ -51,6 +51,8 @@ class OAuthMiddleware(MiddlewareMixin):
                 return self.get_response(request)
         # remember redirect URI for redirecting to the original URL.
         request.session["redirect_uri"] = request.path
+        if request.META["QUERY_STRING"]:
+            request.session["redirect_uri"] += "?" + request.META["QUERY_STRING"]
         return sso_client.authorize_redirect(
             request, settings.OAUTH_CLIENT["redirect_uri"]
         )
