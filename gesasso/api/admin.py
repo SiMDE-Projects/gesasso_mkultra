@@ -1,8 +1,11 @@
 from django.contrib import admin
 from django.contrib.admin.models import LogEntry
+from django.http import HttpResponseRedirect
+from django.urls import path
+from django.utils.translation import gettext_lazy as _
 
 from gesasso.api.models import Action, ActionType, Task, TaskType, Request, Asso, User
-from django.utils.translation import gettext_lazy as _
+from gesasso.api.views import AssosViewSet
 
 
 @admin.register(LogEntry)
@@ -29,6 +32,20 @@ class LogAdmin(admin.ModelAdmin):
 
 @admin.register(Asso)
 class AssoAdmin(admin.ModelAdmin):
+    change_list_template = "entities/assos_changelist.html"
+
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            path("sync/", self.sync),
+        ]
+        return my_urls + urls
+
+    def sync(self, request):
+        AssosViewSet.sync_assos()
+        self.message_user(request, "All assos are now in sync")
+        return HttpResponseRedirect("../")
+
     def has_add_permission(self, request):
         return False
 
@@ -41,6 +58,7 @@ class AssoAdmin(admin.ModelAdmin):
     list_display = ("login", "shortname", "name", "parent")
     list_filter = (("parent", admin.RelatedOnlyFieldListFilter),)
     search_fields = ("login", "shortname", "name")
+    ordering = ("login", "shortname", "name")
 
 
 @admin.register(TaskType)
@@ -128,12 +146,6 @@ class UserAdmin(admin.ModelAdmin):
         "groups",
         "user_permissions",
     )
-
-    def lookup_allowed(self, lookup, value):
-        # Don't allow lookups involving passwords.
-        return not lookup.startswith("password") and super().lookup_allowed(
-            lookup, value
-        )
 
 
 admin.site.site_header = "Gesasso MK_Ultra"
