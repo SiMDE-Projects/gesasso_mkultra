@@ -39,6 +39,8 @@ class AssoAdmin(admin.ModelAdmin):
         return False
 
     list_display = ("login", "shortname", "name", "parent")
+    list_filter = (("parent", admin.RelatedOnlyFieldListFilter),)
+    search_fields = ("login", "shortname", "name")
 
 
 @admin.register(TaskType)
@@ -48,33 +50,22 @@ class CommonAdmin(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    def get_form(self, request, obj=None, change=False, **kwargs):
-        form = super().get_form(request, obj, **kwargs)
-        form.base_fields["type"].label_from_instance = lambda o: o.name
-        return form
+    pass
 
 
 @admin.register(ActionType)
 class ActionTypeAdmin(admin.ModelAdmin):
-    def get_form(self, request, obj=None, change=False, **kwargs):
-        form = super().get_form(request, obj, **kwargs)
-        form.base_fields["tasks_types"].label_from_instance = lambda o: o.name
-        return form
+    pass
 
 
 @admin.register(Request)
 class RequestAdmin(admin.ModelAdmin):
-    def get_form(self, request, obj=None, change=False, **kwargs):
-        form = super().get_form(request, obj, **kwargs)
-        form.base_fields["actions"].label_from_instance = lambda o: "{} ({})".format(
-            o.name, o.type.name
-        )
-        return form
-
-    def user_name(self, obj):
-        return "{} {}".format(obj.user, obj.user)
-
-    list_display = ["title", "asso", "user_name", "status", "created", "updated"]
+    list_display = ["title", "asso", "user", "status", "created", "updated"]
+    search_fields = (
+        "title",
+        "asso",
+        "user",
+    )
 
 
 class TaskTypeInline(admin.StackedInline):
@@ -90,6 +81,12 @@ class ActionAdmin(admin.ModelAdmin):
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
     fieldsets = (
         (None, {"fields": ("username", "password")}),
         (_("Personal info"), {"fields": ("first_name", "last_name", "email")}),
