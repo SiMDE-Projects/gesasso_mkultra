@@ -17,3 +17,6 @@ class RequestMessage(TimeStampable):
     message = models.TextField()
     user = models.ForeignKey("User", on_delete=models.DO_NOTHING)
     type = models.PositiveSmallIntegerField(choices=Types.choices, default=Types.PUBLIC)
+
+    def is_readable(self, user):
+        return self.type == self.Types.PUBLIC or user.is_superuser or self.user == user
