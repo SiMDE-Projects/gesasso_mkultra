@@ -1,0 +1,36 @@
+version: "3.8"
+services:
+  db:
+    image: mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: gesasso
+      MARIADB_DATABASE: gesasso
+      MARIADB_USER: gesasso
+      MARIADB_PASSWORD: gesasso
+  web:
+    build: ""
+    environment:
+      GESASSO_DJANGO_SECRET: "mysupersecretsecret"
+      GESASSO_DJANGO_DEBUG: "True"
+      GESASSO_DJANGO_ALLOWED_HOSTS: "*"
+      GESASSO_DB_DEFAULT: "mysql://root:gesasso@db/gesasso"
+      GESASSO_OAUTH_CLIENT_ID: "YOUR_ID"
+      GESASSO_OAUTH_CLIENT_SECRET: "YOUR_SECRET"
+      GESASSO_LOG_LEVEL: "INFO"
+      GESASSO_DISABLE_SYNC_ASSOS: "False"
+    ports:
+      - "8003:8003"
+    volumes:
+      - .:/code
+    links:
+      - db
+    depends_on:
+      - db
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+    links:
+      - db
+    depends_on:
+      - db
