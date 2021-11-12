@@ -36,7 +36,9 @@ INSTALLED_APPS = [
     "corsheaders",
     "storages",
     "debug_toolbar",
+    "webpack_loader",
     "gesasso.api",
+    "gesasso.frontend",
 ]
 
 MIDDLEWARE = [
@@ -142,6 +144,11 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = "/static"
+STATICFILES_DIRS = (
+    os.path.join(
+        BASE_DIR, "gesasso", "frontend", "dist"
+    ),  # update the STATICFILES_DIRS
+)
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
@@ -213,3 +220,11 @@ logging.config.dictConfig(
         },
     }
 )
+
+WEBPACK_LOADER = {
+    "DEFAULT": {
+        "BUNDLE_DIR_NAME": "./frontend/",
+        "STATS_FILE": os.path.join(BASE_DIR, "./gesasso/frontend/webpack-stats.json"),
+        "CACHE": not DEBUG,
+    }
+}
