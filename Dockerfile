@@ -1,4 +1,14 @@
 ARG BASE=builder
+#
+#FROM node:alpine as front_builder
+#WORKDIR /code
+#
+#ARG NODE_ENV=production
+#ENV NODE_ENV=${NODE_ENV}
+#ADD package.json /code/package.json
+#RUN yarn install
+#ADD . /code
+#RUN yarn build
 
 FROM python:3.8-buster AS builder
 MAINTAINER Cesar Richard <cesar.richard2@gmail.com>
@@ -26,11 +36,13 @@ RUN pip install --no-cache-dir uwsgi
 ADD requirements.txt /code/
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Add code
-ADD . /code/
-
 # Uwsgi runs on port 8003
 EXPOSE 8003
+
+#COPY --from=front_builder /code/node_modules.bin.txt /code/node_modules.bin.txt
+
+# Add code
+ADD . /code/
 
 # Collect static files
 RUN GESASSO_DJANGO_SECRET=whatever python manage.py collectstatic --noinput --clear
