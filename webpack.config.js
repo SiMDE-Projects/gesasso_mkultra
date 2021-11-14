@@ -8,7 +8,7 @@ module.exports = {
   },
   output: {
     path: path.resolve('./gesasso/frontend/dist'),
-    filename: '[name]-[hash].js',
+    filename: '[name]-[chunkhash].js',
     publicPath: '/static/',
   },
   plugins: [
