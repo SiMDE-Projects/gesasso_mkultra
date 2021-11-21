@@ -12,11 +12,18 @@ class RequestMessage(TimeStampable):
         ERROR = 4, "ERROR"
         INFO = 5, "INFO"
 
+    class Origin(models.IntegerChoices):
+        MAIL = 1, "MAIL"
+        DIRECT = 2, "DIRECT"
+
     id = models.AutoField(primary_key=True)
     request = models.ForeignKey(Request, on_delete=models.CASCADE)
     message = models.TextField()
     user = models.ForeignKey("User", on_delete=models.DO_NOTHING)
     type = models.PositiveSmallIntegerField(choices=Types.choices, default=Types.PUBLIC)
+    origin = models.PositiveSmallIntegerField(
+        choices=Origin.choices, default=Origin.DIRECT
+    )
 
     def is_readable(self, user):
         return self.type == self.Types.PUBLIC or user.is_superuser or self.user == user

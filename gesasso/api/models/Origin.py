@@ -25,12 +25,11 @@ class Request(TimeStampable):
     title = models.CharField(blank=False, null=False, max_length=150)
     description = models.TextField()
     due_date = models.DateTimeField(blank=True, null=True)
-    user = models.CharField(blank=False, null=False, max_length=150)
-    asso = models.ForeignKey("Asso", on_delete=models.CASCADE)
+    user = models.ForeignKey("User", on_delete=models.DO_NOTHING)
+    asso = models.ForeignKey("Asso", on_delete=models.DO_NOTHING)
     status = models.PositiveSmallIntegerField(
         choices=Status.choices, default=Status.OPEN
     )
     origin = models.PositiveSmallIntegerField(
         choices=Origin.choices, default=Origin.DIRECT
     )
-    actions = models.ManyToManyField("Action")

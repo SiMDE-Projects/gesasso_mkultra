@@ -70,15 +70,15 @@ class OAuthMiddleware(MiddlewareMixin):
             return request.session["user"]
 
         try:
+            oAuth2Token = OAuth2Token(token)
             res = sso_client.get(
-                settings.OAUTH_CLIENT["userinfo_endpoint"], token=OAuth2Token(token)
+                settings.OAUTH_CLIENT["userinfo_endpoint"], token=oAuth2Token
             )
-            assos = sso_client.get(
-                "/api/v1/user/assos", token=OAuth2Token(token)
-            ).json()
+            assos = sso_client.get("/api/v1/user/assos", token=oAuth2Token)
             if res.ok:
                 request.session["user"] = res.json()
-                request.session["user"]["assos"] = assos
+                if assos.ok:
+                    request.session["user"]["assos"] = assos.json()
                 return request.session["user"]
         except OAuthError as e:
             logger.error(e)
