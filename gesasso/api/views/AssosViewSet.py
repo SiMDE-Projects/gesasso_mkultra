@@ -19,8 +19,8 @@ class AssosViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Asso.objects.all()
     serializer_class = AssoSerializer
 
-    def list(self, request, *args, **kwargs):
-        if kwargs["force"] or not settings.DISABLE_SYNC_ASSOS:
+    def list(self, request, force=False, *args, **kwargs):
+        if force or not settings.DISABLE_SYNC_ASSOS:
             self.sync_assos()
         return Response(self.queryset.values())
 
