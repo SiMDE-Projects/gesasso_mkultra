@@ -1,12 +1,10 @@
 import logging
 
-from rest_framework import viewsets, permissions
 from django.http import JsonResponse
+from oauth_pda_app.models import User
+from rest_framework import viewsets, permissions
 
-from gesasso.api.models import User
-from gesasso.api.serializers import (
-    UserSerializer,
-)
+from gesasso.api.serializers import UserSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -30,4 +28,6 @@ class SelfUserViewSet(viewsets.GenericViewSet):
 
     def get(self, request):
         # return JsonResponse(request.session["user"])
-        return JsonResponse({"bite": "lol"})
+        # response = call_get_api(request, '/user')
+        response = {}
+        return JsonResponse(response)

@@ -1,7 +1,9 @@
-version: "3.8"
+version: "3.9"
 services:
   db:
     image: mariadb
+    ports:
+      - "3306:3306"
     environment:
       MARIADB_ROOT_PASSWORD: gesasso
       MARIADB_DATABASE: gesasso
@@ -14,14 +16,15 @@ services:
       GESASSO_DJANGO_DEBUG: "True"
       GESASSO_DJANGO_ALLOWED_HOSTS: "*"
       GESASSO_DB_DEFAULT: "mysql://root:gesasso@db/gesasso"
-      GESASSO_OAUTH_CLIENT_ID: "YOUR_ID"
-      GESASSO_OAUTH_CLIENT_SECRET: "YOUR_SECRET"
+      GESASSO_OAUTH_SETTINGS_ID: "YOUR_ID"
+      GESASSO_OAUTH_SETTINGS_SECRET: "YOUR_SECRET"
       GESASSO_LOG_LEVEL: "INFO"
-      GESASSO_DISABLE_SYNC_ASSOS: "False"
+      GESASSO_DISABLE_SYNC_ASSOS: "True"
     ports:
       - "8003:8003"
     volumes:
       - .:/code
+      - /Users/cesar/git/perso/oauth_pda_utc/oauth_pda_app:/usr/local/lib/python3.8/site-packages/oauth_pda_app
     links:
       - db
     depends_on:
@@ -34,3 +37,5 @@ services:
       - db
     depends_on:
       - db
+    profiles:
+      - debug

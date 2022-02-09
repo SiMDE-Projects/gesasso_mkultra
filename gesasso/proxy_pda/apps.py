@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class ApiConfig(AppConfig):
+class ProxyPdaConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = "gesasso.api"
+    name = 'gesasso.proxy_pda'

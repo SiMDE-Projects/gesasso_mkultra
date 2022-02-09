@@ -26,29 +26,26 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "webpack_loader",
     "drf_psq",
+    "oauth_pda_app",
     "gesasso.api",
     "gesasso.frontend",
+    'gesasso.proxy_pda',
 ]
 
 MIDDLEWARE = [
-    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    # "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
     "gesasso.api.middlewares.OAuthMiddleware",
-    "django.contrib.auth.middleware.RemoteUserMiddleware",
 ]
 
-AUTHENTICATION_BACKENDS = [
-    "gesasso.api.middlewares.RemoteAuthBackend",
-]
-
-AUTH_USER_MODEL = "api.User"
+AUTH_USER_MODEL = "oauth_pda_app.User"
 
 if DEBUG:
     import socket  # only if you haven't already imported this
