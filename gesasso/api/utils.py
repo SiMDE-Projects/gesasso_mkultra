@@ -1,5 +1,6 @@
 import json
 import logging
+from datetime import datetime
 
 from django.db import models
 from django.utils import timezone
@@ -113,3 +114,8 @@ class TimeStampable(TimeStampableMixin, Model):
 
     class Meta:
         abstract = True
+
+
+def date_to_timezone(date: str):
+    return timezone.make_aware(
+        datetime.strptime(date, '%Y-%m-%d %H:%M:%S'))

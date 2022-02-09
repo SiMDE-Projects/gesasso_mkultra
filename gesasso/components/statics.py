@@ -7,5 +7,5 @@ STATIC_ROOT = "/static"
 STATICFILES_DIRS = (
     os.path.join(
         BASE_DIR, "gesasso", "frontend", "dist"
-    ),  # update the STATICFILES_DIRS
+    ),
 )

@@ -1,96 +1,42 @@
 import logging
 
-from authlib.integrations.base_client import OAuthError
-from authlib.integrations.django_client import OAuth
-from authlib.oauth2.rfc6749 import OAuth2Token
-from django.shortcuts import redirect
+from django.contrib.auth import login
 from django.utils.deprecation import MiddlewareMixin
+from oauth_pda_app.backend import OAuthBackend
 
-from gesasso import settings
-from gesasso.api import views
+from gesasso.proxy_pda.serializers import UserInfoSerializer
+from gesasso.proxy_pda.utils import request_user_assos
 
 logger = logging.getLogger(__name__)
 
 
 class OAuthMiddleware(MiddlewareMixin):
+    """
+    Middleware to handle OAuth2 authentication.
+    """
+
     def __init__(self, get_response=None):
         super().__init__(get_response)
-        self.oauth = OAuth()
 
     def process_request(self, request):
-        if settings.OAUTH_URL_WHITELISTS is not None:
-            for w in settings.OAUTH_URL_WHITELISTS:
-                if request.path.startswith(w):
-                    return self.get_response(request)
-
-        def update_token(token, refresh_token, access_token):
-            request.session["token"] = token
-            return None
-
-        sso_client = self.oauth.register(
-            settings.OAUTH_CLIENT_NAME,
-            overwrite=True,
-            **settings.OAUTH_CLIENT,
-            update_token=update_token
-        )
-        if request.path.startswith("/oauth/callback"):
-            self.clear_session(request)
-            request.session["token"] = sso_client.authorize_access_token(request)
-            current_user = self.get_current_user(sso_client, request)
-            if current_user is not None:
-                request.META["REMOTE_USER"] = current_user
-                redirect_uri = request.session.pop("redirect_uri", None)
-                if redirect_uri is not None:
-                    return redirect(redirect_uri)
-                return redirect(views.index)
-
-        if request.session.get("token", None) is not None:
-            current_user = self.get_current_user(sso_client, request)
-            if current_user is not None:
-                request.META["REMOTE_USER"] = current_user
-                return self.get_response(request)
-        # remember redirect URI for redirecting to the original URL.
-        request.session["redirect_uri"] = request.path
-        if request.META["QUERY_STRING"]:
-            request.session["redirect_uri"] += "?" + request.META["QUERY_STRING"]
-        return sso_client.authorize_redirect(
-            request, settings.OAUTH_CLIENT["redirect_uri"]
-        )
-
-    # fetch current login user info
-    # 1. check if it's in cache
-    # 2. fetch from remote API when it's not in cache
-    @staticmethod
-    def get_current_user(sso_client, request):
-        token = request.session.get("token", None)
-        if token is None or "access_token" not in token:
-            return None
-
-        if not OAuth2Token.from_dict(token).is_expired() and "user" in request.session:
-            return request.session["user"]
-
-        try:
-            oAuth2Token = OAuth2Token(token)
-            res = sso_client.get(
-                settings.OAUTH_CLIENT["userinfo_endpoint"], token=oAuth2Token
-            )
-            assos = sso_client.get("/api/v1/user/assos", token=oAuth2Token)
-            if res.ok:
-                request.session["user"] = res.json()
-                if assos.ok:
-                    request.session["user"]["assos"] = assos.json()
-                return request.session["user"]
-        except OAuthError as e:
-            logger.error(e)
-        return None
-
-    @staticmethod
-    def clear_session(request):
-        try:
-            del request.session["user"]
-            del request.session["token"]
-        except KeyError:
-            pass
-
-    def __del__(self):
-        logger.error("destroyed")
+        """
+        Process the request to check if the user is authenticated.
+        """
+        sessions_keys = request.session.keys()
+        if 'token' in sessions_keys and not request.user.is_authenticated:
+            datas = UserInfoSerializer(request.session['user'])
+            user = OAuthBackend().authenticate(request, datas.data)
+            login(request, user)
+            if "assos" not in request.session.keys():
+                request.session['assos'] = request_user_assos(request)
+            if not (user.is_staff and user.is_superuser):
+                for asso in request.session['assos']:
+                    if (
+                            asso["login"] == "simde"
+                            # and asso["pivot"]["role_id"] == "5e12fc00-3af5-11e9-a2eb-bda2ff28d348"
+                    ):
+                        logger.info("User is a simde's member")
+                        user.is_staff = True
+                        user.is_superuser = True
+                        user.save()
+                        break

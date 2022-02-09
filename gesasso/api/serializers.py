@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
-from gesasso.api.models import Request, Action, Asso, ActionType
+from gesasso.api.models import Request, Action, ActionType
+from gesasso.proxy_pda.models import Asso
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
