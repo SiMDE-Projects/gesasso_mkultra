@@ -11,6 +11,7 @@ class UserInfoSerializer(serializers.Serializer):
     connecté. Permet de filtrer la réponse du portail en récupérant les
     champs qui nous intéressent
     """
+
     firstname = serializers.CharField()
     lastname = serializers.CharField()
     email = serializers.CharField()
@@ -18,11 +19,9 @@ class UserInfoSerializer(serializers.Serializer):
 
 
 # objet standard pour un utilisateur non connecté
-AnonymousUserInfo = UserInfoSerializer({
-    'firstname': 'Anonyme',
-    'lastname': '',
-    'id': str(uuid.UUID(int=0))
-})
+AnonymousUserInfo = UserInfoSerializer(
+    {"firstname": "Anonyme", "lastname": "", "id": str(uuid.UUID(int=0))}
+)
 
 
 class AssoSerializer(serializers.ModelSerializer):
@@ -30,16 +29,17 @@ class AssoSerializer(serializers.ModelSerializer):
     Serializer permettant de renvoyer la liste des associations auxquelles
     un utilisateur a accès dans Flairsou
     """
+
     asso_set = serializers.SerializerMethodField()
 
     class Meta:
         model = Asso
         fields = [
-            'asso_id',
-            'shortname',
-            'name',
-            'asso_type',
-            'asso_set',
+            "asso_id",
+            "shortname",
+            "name",
+            "asso_type",
+            "asso_set",
         ]
 
     def get_asso_set(self, instance):

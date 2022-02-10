@@ -39,22 +39,18 @@ def sync_assos(request):
                 bulk_delete.append(data["id"])
             else:
                 if (
-                        existing_asso["name"] != data["name"]
-                        or existing_asso["shortname"] != data["shortname"]
+                    existing_asso["name"] != data["name"]
+                    or existing_asso["shortname"] != data["shortname"]
                 ):
                     asso = Asso(
                         id=data["id"],
                         login=data["login"],
                         shortname=data["shortname"],
                         name=data["name"],
-                        parent=Asso(data["parent"]["id"])
-                        if data["parent"]
-                        else None,
+                        parent=Asso(data["parent"]["id"]) if data["parent"] else None,
                     )
                     bulk_update.append(asso)
     with atomic():
         Asso.objects.bulk_create(bulk_create)
-        Asso.objects.bulk_update(
-            bulk_update, ["login", "shortname", "name", "parent"]
-        )
+        Asso.objects.bulk_update(bulk_update, ["login", "shortname", "name", "parent"])
         (Asso.objects.filter(pk__in=bulk_delete)).delete()

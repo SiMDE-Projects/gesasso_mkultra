@@ -1,5 +1,3 @@
 from .Asso import Asso
 
-__all__ = [
-    Asso
-]
+__all__ = [Asso]

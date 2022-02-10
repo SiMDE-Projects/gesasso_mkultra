@@ -9,11 +9,11 @@ def request_user_assos(request):
 
     request: requête django
     """
-    if 'user' not in request.session.keys():
+    if "user" not in request.session.keys():
         raise NotAuthenticated()
 
-    print('/users/{}/assos'.format(request.session['user']['id']))
-    response = get_api(request, '/users/{}/assos'.format(request.session['user']['id']))
+    print("/users/{}/assos".format(request.session["user"]["id"]))
+    response = get_api(request, "/users/{}/assos".format(request.session["user"]["id"]))
 
     # for asso in response.json():
     #     if asso['pivot']['validated_by_id'] is None:
@@ -23,6 +23,8 @@ def request_user_assos(request):
     #     request.session['assos'].append(asso['id'])
 
     # On ignore les associations qui ne sont pas auxquelles l'inscription n'est pas validée
-    request.session['assos'] = list(filter(lambda x: x['pivot']['validated_by_id'] is not None, response.json()))
+    request.session["assos"] = list(
+        filter(lambda x: x["pivot"]["validated_by_id"] is not None, response.json())
+    )
 
-    return request.session['assos']
+    return request.session["assos"]
