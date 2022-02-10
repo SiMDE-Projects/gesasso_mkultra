@@ -9,22 +9,29 @@ import gesasso.api.utils
 class Migration(migrations.Migration):
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Asso',
+            name="Asso",
             fields=[
-                ('id', models.UUIDField(primary_key=True, serialize=False)),
-                ('login', models.CharField(max_length=30)),
-                ('shortname', models.CharField(max_length=150)),
-                ('name', models.CharField(max_length=150)),
-                ('parent', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING,
-                                             related_name='children', to='proxy_pda.asso')),
+                ("id", models.UUIDField(primary_key=True, serialize=False)),
+                ("login", models.CharField(max_length=30)),
+                ("shortname", models.CharField(max_length=150)),
+                ("name", models.CharField(max_length=150)),
+                (
+                    "parent",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="children",
+                        to="proxy_pda.asso",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
             bases=(gesasso.api.utils.GetFreshMixin, models.Model),
         ),
