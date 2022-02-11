@@ -17,18 +17,22 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Action',
+            name="Action",
             fields=[
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('updated', models.DateTimeField(auto_now=True)),
-                ('removed', models.DateTimeField(blank=True, default=None, null=True)),
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=150, unique=True)),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                ("updated", models.DateTimeField(auto_now=True)),
+                ("removed", models.DateTimeField(blank=True, default=None, null=True)),
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                ("name", models.CharField(max_length=150, unique=True)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=(gesasso.api.utils.TimeStampableMixin, gesasso.api.utils.GetFreshMixin, models.Model),
+            bases=(
+                gesasso.api.utils.TimeStampableMixin,
+                gesasso.api.utils.GetFreshMixin,
+                models.Model,
+            ),
         ),
         migrations.CreateModel(
             name='ActionType',
@@ -40,9 +44,13 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=150, unique=True)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=(gesasso.api.utils.TimeStampableMixin, gesasso.api.utils.GetFreshMixin, models.Model),
+            bases=(
+                gesasso.api.utils.TimeStampableMixin,
+                gesasso.api.utils.GetFreshMixin,
+                models.Model,
+            ),
         ),
         migrations.CreateModel(
             name='Request',
@@ -61,12 +69,16 @@ class Migration(migrations.Migration):
                 ('asso', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='proxy_pda.asso')),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=(gesasso.api.utils.TimeStampableMixin, gesasso.api.utils.GetFreshMixin, models.Model),
+            bases=(
+                gesasso.api.utils.TimeStampableMixin,
+                gesasso.api.utils.GetFreshMixin,
+                models.Model,
+            ),
         ),
         migrations.CreateModel(
-            name='RequestMessage',
+            name="RequestMessage",
             fields=[
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now=True)),
@@ -79,13 +91,19 @@ class Migration(migrations.Migration):
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=(gesasso.api.utils.TimeStampableMixin, gesasso.api.utils.GetFreshMixin, models.Model),
+            bases=(
+                gesasso.api.utils.TimeStampableMixin,
+                gesasso.api.utils.GetFreshMixin,
+                models.Model,
+            ),
         ),
         migrations.AddField(
-            model_name='action',
-            name='type',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.actiontype'),
+            model_name="action",
+            name="type",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="api.actiontype"
+            ),
         ),
     ]
