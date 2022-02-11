@@ -9,4 +9,3 @@ class ActionType(TimeStampable):
 
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, blank=False, null=False, max_length=150)
-    tasks_types = models.ManyToManyField("TaskType")
