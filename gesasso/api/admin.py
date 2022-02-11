@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin.models import LogEntry
 
-from gesasso.api.models import Action, ActionType, Task, TaskType, Request
+from gesasso.api.models import Action, ActionType, Request
 
 
 @admin.register(LogEntry)
@@ -26,16 +26,6 @@ class LogAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(TaskType)
-class CommonAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(Task)
-class TaskAdmin(admin.ModelAdmin):
-    pass
-
-
 @admin.register(ActionType)
 class ActionTypeAdmin(admin.ModelAdmin):
     pass
@@ -49,12 +39,6 @@ class RequestAdmin(admin.ModelAdmin):
         "asso",
         "user",
     )
-
-
-class TaskTypeInline(admin.StackedInline):
-    model = Task
-    can_delete = False
-    extra = 0
 
 
 @admin.register(Action)
