@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     "oauth_pda_app",
     "gesasso.api",
     "gesasso.frontend",
-    'gesasso.proxy_pda',
+    "gesasso.proxy_pda",
 ]
 
 MIDDLEWARE = [
