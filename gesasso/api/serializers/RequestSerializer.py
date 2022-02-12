@@ -7,6 +7,7 @@ class RequestSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Request
         fields = [
+            "id",
             "url",
             "title",
             "asso",
