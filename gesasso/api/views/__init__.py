@@ -4,7 +4,7 @@ from .AssosViewSet import AssosViewSet
 from .GroupViewSet import GroupViewSet
 from .RequestMessageViewSet import RequestMessageViewSet
 from .RequestViewSet import RequestViewSet
-from .UserViewSet import UserViewSet, SelfUserViewSet
+from .UserViewSet import UserViewSet
 
 __all__ = [
     AssosViewSet,
@@ -13,6 +13,5 @@ __all__ = [
     RequestMessageViewSet,
     RequestViewSet,
     UserViewSet,
-    SelfUserViewSet,
     GroupViewSet,
 ]

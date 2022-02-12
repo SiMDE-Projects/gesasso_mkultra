@@ -17,17 +17,3 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by("-date_joined")
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
-
-
-class SelfUserViewSet(viewsets.GenericViewSet):
-    """
-    API endpoint that allows users get own datas.
-    """
-
-    queryset = User.objects.all()
-
-    def get(self, request):
-        # return JsonResponse(request.session["user"])
-        # response = call_get_api(request, '/user')
-        response = {}
-        return JsonResponse(response)
