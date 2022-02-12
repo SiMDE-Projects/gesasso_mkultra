@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
-const UserInfo = () => {
+const UserInfo = function () {
   const [userName, setUserName] = useState('');
   const [loading, setLoading] = useState(true);
   const [authLink, setAuthLink] = useState('');
@@ -8,17 +8,6 @@ const UserInfo = () => {
   const logoutUrl = '/oauth/logout';
   const userInfosUrl = '/proxy_pda/get_user_infos';
 
-  // récupération du lien de connexion depuis le backend de Flairsou
-  useEffect(() => {
-    fetch(authlinkUrl)
-      .then((response) => response.json())
-      .then((response) => {
-        setAuthLink(response.link);
-      });
-  }, []);
-
-  // vérification si l'utilisateur est déjà connecté, uniquement au
-  // chargement du composant
   useEffect(() => {
     fetch(userInfosUrl)
       .then((response) => {
@@ -44,8 +33,6 @@ const UserInfo = () => {
   }
 
   if (userName !== '') {
-    // the user is connected, return a component with the name
-    // of the user
     return (
       <p>
         {userName}
@@ -53,8 +40,6 @@ const UserInfo = () => {
       </p>
     );
   }
-
-  // the user is not connected, display the login link
 
   return (
     <p>
