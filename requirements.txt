@@ -48,7 +48,6 @@ django==4.0.2
     #   djangorestframework
     #   drf-psq
     #   drf-spectacular
-    #   drf-tracking
     #   oauth-pda-app
 django-cors-headers==3.11.0
     # via -r requirements.in
@@ -71,7 +70,6 @@ djangorestframework==3.12.4
     #   -r requirements.in
     #   drf-psq
     #   drf-spectacular
-    #   drf-tracking
 docopt==0.6.2
     # via
     #   coveralls
@@ -80,8 +78,6 @@ drf-psq==1.1.0
     # via -r requirements.in
 drf-spectacular==0.21.2
     # via oauth-pda-app
-drf-tracking==1.5.0
-    # via -r requirements.in
 filelock==3.4.2
     # via virtualenv
 flake8==4.0.1
@@ -158,9 +154,7 @@ pytest-watch==4.2.0
 python-stdnum==1.17
     # via django-localflavor
 pytz==2021.3
-    # via
-    #   -r requirements.in
-    #   drf-tracking
+    # via -r requirements.in
 pyyaml==6.0
     # via
     #   drf-spectacular
