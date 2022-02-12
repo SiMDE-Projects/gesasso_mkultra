@@ -2,6 +2,7 @@ from django.db import models
 
 from gesasso.api.utils import TimeStampable
 from gesasso.proxy_pda.models import Asso
+from oauth_pda_app.models import User
 
 
 class Request(TimeStampable):
@@ -27,7 +28,7 @@ class Request(TimeStampable):
     title = models.CharField(blank=False, null=False, max_length=150)
     description = models.TextField()
     due_date = models.DateTimeField(blank=True, null=True)
-    user = models.CharField(blank=False, null=False, max_length=150)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     asso = models.ForeignKey(Asso, on_delete=models.CASCADE)
     status = models.PositiveSmallIntegerField(
         choices=Status.choices, default=Status.OPEN
@@ -35,4 +36,4 @@ class Request(TimeStampable):
     origin = models.PositiveSmallIntegerField(
         choices=Origin.choices, default=Origin.DIRECT
     )
-    actions = models.ManyToManyField("Action")
+    actions = models.ManyToManyField("Action", blank=True)
