@@ -1,8 +1,8 @@
 from django.db import models
+from oauth_pda_app.models import User
 
 from gesasso.api.utils import TimeStampable
 from gesasso.proxy_pda.models import Asso
-from oauth_pda_app.models import User
 
 
 class Request(TimeStampable):

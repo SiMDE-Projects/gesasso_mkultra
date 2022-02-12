@@ -9,6 +9,7 @@ from .UserViewSet import UserViewSet, SelfUserViewSet
 __all__ = [
     AssosViewSet,
     ActionViewSet,
+    ActionTypeViewSet,
     RequestMessageViewSet,
     RequestViewSet,
     UserViewSet,
