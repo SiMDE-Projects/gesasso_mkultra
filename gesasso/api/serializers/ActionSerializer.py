@@ -3,10 +3,8 @@ from rest_framework import serializers
 from gesasso.api.models import Action, ActionType
 
 
-class ActionSerializer(serializers.HyperlinkedModelSerializer):
-    type = serializers.HyperlinkedRelatedField(
-        view_name="actiontype-detail",
-        lookup_field="id",
+class ActionSerializer(serializers.ModelSerializer):
+    type = serializers.PrimaryKeyRelatedField(
         required=False,
         queryset=ActionType.objects.all(),
     )
