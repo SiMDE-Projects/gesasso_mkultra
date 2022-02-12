@@ -14,5 +14,4 @@ api_router.register(r"action_types", views.ActionTypeViewSet)
 
 urlpatterns = [
     path("", include(api_router.urls)),
-    path("me/", views.SelfUserViewSet.as_view({"get": "get"})),
 ]
