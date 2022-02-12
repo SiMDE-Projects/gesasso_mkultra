@@ -20,12 +20,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "rest_framework.authtoken",
     "corsheaders",
     "storages",
     "debug_toolbar",
     "webpack_loader",
-    "drf_psq",
     "oauth_pda_app",
     "gesasso.api",
     "gesasso.frontend",
@@ -41,7 +39,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    # "django.middleware.csrf.CsrfViewMiddleware",
     "gesasso.api.middlewares.OAuthMiddleware",
 ]
 

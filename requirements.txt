@@ -10,6 +10,8 @@ attrs==21.4.0
     # via
     #   jsonschema
     #   pytest
+backports-zoneinfo==0.2.1
+    # via django
 black==22.1.0
     # via -r requirements.in
 certifi==2021.10.8
@@ -34,12 +36,11 @@ distlib==0.3.4
     # via virtualenv
 dj-database-url==0.5.0
     # via -r requirements.in
-django==3.2
+django==4.0.2
     # via
     #   -r requirements.in
     #   django-cors-headers
     #   django-debug-toolbar
-    #   django-extensions
     #   django-filter
     #   django-localflavor
     #   django-model-utils
@@ -47,12 +48,11 @@ django==3.2
     #   djangorestframework
     #   drf-psq
     #   drf-spectacular
+    #   drf-tracking
     #   oauth-pda-app
 django-cors-headers==3.11.0
     # via -r requirements.in
 django-debug-toolbar==3.2.4
-    # via -r requirements.in
-django-extensions==3.1.5
     # via -r requirements.in
 django-filter==21.1
     # via -r requirements.in
@@ -71,6 +71,7 @@ djangorestframework==3.12.4
     #   -r requirements.in
     #   drf-psq
     #   drf-spectacular
+    #   drf-tracking
 docopt==0.6.2
     # via
     #   coveralls
@@ -79,6 +80,8 @@ drf-psq==1.1.0
     # via -r requirements.in
 drf-spectacular==0.21.2
     # via oauth-pda-app
+drf-tracking==1.5.0
+    # via -r requirements.in
 filelock==3.4.2
     # via virtualenv
 flake8==4.0.1
@@ -105,7 +108,7 @@ mysqlclient==2.1.0
     # via -r requirements.in
 nodeenv==1.6.0
     # via pre-commit
-oauth-pda-app @ git+https://github.com/SiMDE-Projects/oauth_pda_utc@v0.2.0
+oauth-pda-app @ git+https://github.com/SiMDE-Projects/oauth_pda_utc@djangoversionconstraint
     # via -r requirements.in
 oauthlib==3.2.0
     # via oauth-pda-app
@@ -155,7 +158,9 @@ pytest-watch==4.2.0
 python-stdnum==1.17
     # via django-localflavor
 pytz==2021.3
-    # via django
+    # via
+    #   -r requirements.in
+    #   drf-tracking
 pyyaml==6.0
     # via
     #   drf-spectacular
