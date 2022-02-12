@@ -1,11 +1,9 @@
 import React from 'react';
-import {Container, Header} from 'semantic-ui-react';
+import { Container, Header } from 'semantic-ui-react';
 import UserInfo from './UserInfo';
+import RequestList from './RequestList';
 
-const App = function () {
-  const assoListLink = '/proxy_pda/get_list_assos';
-  const [assosFetched, setAssosFetched] = React.useState('');
-
+const HomePage = function () {
   return (
     <Container>
       <style>
@@ -31,10 +29,11 @@ const App = function () {
       </style>
 
       <Header as="h2" icon inverted textAlign="center">
-        <UserInfo/>
+        <UserInfo />
+        <RequestList />
       </Header>
     </Container>
   );
 };
 
-export default App;
+export default HomePage;
