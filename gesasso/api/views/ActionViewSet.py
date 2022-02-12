@@ -4,11 +4,12 @@ from rest_framework import viewsets, permissions
 
 from gesasso.api.models import Action
 from gesasso.api.serializers import ActionSerializer
+from gesasso.api.utils import TrackerMixin
 
 logger = logging.getLogger(__name__)
 
 
-class ActionViewSet(viewsets.ModelViewSet):
+class ActionViewSet(TrackerMixin, viewsets.ModelViewSet):
     """
     API endpoint that allows actions to be viewed or edited.
     """
