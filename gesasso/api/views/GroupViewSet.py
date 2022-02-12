@@ -3,9 +3,7 @@ import logging
 from django.contrib.auth.models import Group
 from rest_framework import viewsets, permissions
 
-from gesasso.api.serializers import (
-    GroupSerializer,
-)
+from gesasso.api.serializers import GroupSerializer
 
 logger = logging.getLogger(__name__)
 
