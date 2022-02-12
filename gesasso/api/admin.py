@@ -1,6 +1,5 @@
 from django.contrib import admin
-from django.contrib.admin.models import LogEntry, DELETION
-from django.urls import reverse
+from django.contrib.admin.models import LogEntry
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
@@ -37,25 +36,18 @@ class LogAdmin(admin.ModelAdmin):
     object_link.admin_order_field = "object_repr"
     object_link.short_description = "object"
 
-    date_hierarchy = 'action_time'
+    date_hierarchy = "action_time"
 
-    list_filter = [
-        'user',
-        'content_type',
-        'action_flag'
-    ]
+    list_filter = ["user", "content_type", "action_flag"]
 
-    search_fields = [
-        'object_repr',
-        'change_message'
-    ]
+    search_fields = ["object_repr", "change_message"]
 
     list_display = [
-        'action_time',
-        'user',
-        'content_type',
-        'object_link',
-        'action_flag',
+        "action_time",
+        "user",
+        "content_type",
+        "object_link",
+        "action_flag",
     ]
 
 
