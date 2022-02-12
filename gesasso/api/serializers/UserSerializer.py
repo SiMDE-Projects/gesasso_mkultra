@@ -1,7 +1,7 @@
-from django.contrib.auth.models import User
+from oauth_pda_app.models import User
 from rest_framework import serializers
 
-from api.serializers import GroupSerializer
+from gesasso.api.serializers import GroupSerializer
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
