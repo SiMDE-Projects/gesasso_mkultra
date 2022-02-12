@@ -18,7 +18,7 @@ class RequestMessage(TimeStampable):
         DIRECT = 2, "DIRECT"
 
     id = models.AutoField(primary_key=True)
-    request = models.ForeignKey(Request, on_delete=models.CASCADE)
+    request = models.ForeignKey(Request, on_delete=models.CASCADE, related_name="messages")
     message = models.TextField()
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     type = models.PositiveSmallIntegerField(choices=Types.choices, default=Types.PUBLIC)
@@ -26,5 +26,6 @@ class RequestMessage(TimeStampable):
         choices=Origin.choices, default=Origin.DIRECT
     )
 
-    def is_readable(self, user):
+    @property
+    def is_readable(self, user=None):
         return self.type == self.Types.PUBLIC or user.is_superuser or self.user == user
