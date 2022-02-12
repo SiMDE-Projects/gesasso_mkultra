@@ -1,10 +1,10 @@
 const path = require('path');
 const BundleTracker = require('webpack-bundle-tracker');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: {
-    frontend: './gesasso/frontend/src/index.js',
+    frontend: './gesasso/frontend/src/index.jsx',
   },
   output: {
     path: path.resolve('./gesasso/frontend/dist'),
@@ -22,10 +22,10 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
+        exclude: /(node_modules|venv)/,
         use: {
           loader: 'babel-loader',
-          options: {presets: ['@babel/env', '@babel/preset-react']},
+          options: { presets: ['@babel/env', '@babel/preset-react'] },
         },
       },
       {
@@ -47,4 +47,5 @@ module.exports = {
       writeToDisk: true,
     },
   },
+  resolve: { extensions: ['*', '.js', '.jsx'] },
 };
