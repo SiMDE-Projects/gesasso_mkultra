@@ -3,9 +3,7 @@ import logging
 from rest_framework import viewsets, permissions
 
 from gesasso.api.models import Request
-from gesasso.api.serializers import (
-    RequestSerializer,
-)
+from gesasso.api.serializers import RequestSerializer
 
 logger = logging.getLogger(__name__)
 
