@@ -1,5 +1,6 @@
 const path = require('path');
 const BundleTracker = require('webpack-bundle-tracker');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
@@ -13,6 +14,9 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
+    new MomentLocalesPlugin({
+      localesToKeep: ['fr'],
+    }),
     new BundleTracker({
       path: __dirname,
       filename: './gesasso/frontend/webpack-stats.json',
