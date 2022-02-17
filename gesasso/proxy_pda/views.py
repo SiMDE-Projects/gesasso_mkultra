@@ -21,14 +21,13 @@ class GetUserInfo(views.APIView):
 
 class GetListAssos(mixins.ListModelMixin, generics.GenericAPIView):
     """
-    Vue qui renvoie la liste des associations pour lesquelles l'utilisateur
-    connecté a les droits de trésorerie. Le retour tient compte de la
+    Vue qui renvoie la liste des associations dont l'utilisateur
+    connecté fait partie. Le retour tient compte de la
     hiérarchie des associations.
     """
 
     serializer_class = AssoSerializer
 
-    @login_required
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -42,6 +41,6 @@ class GetListAssos(mixins.ListModelMixin, generics.GenericAPIView):
         if "assos" not in self.request.session:
             request_user_assos(self.request)
 
-        allowedAssos = self.request.session["assos"]
+        allowedAssos = [asso['id'] for asso in self.request.session["assos"]]
 
         return Asso.objects.filter(pk__in=allowedAssos)
