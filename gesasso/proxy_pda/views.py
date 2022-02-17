@@ -1,4 +1,3 @@
-from django.contrib.auth.decorators import login_required
 from rest_framework import generics, mixins, views
 from rest_framework.response import Response
 
@@ -41,6 +40,6 @@ class GetListAssos(mixins.ListModelMixin, generics.GenericAPIView):
         if "assos" not in self.request.session:
             request_user_assos(self.request)
 
-        allowedAssos = [asso['id'] for asso in self.request.session["assos"]]
+        allowedAssos = [asso["id"] for asso in self.request.session["assos"]]
 
         return Asso.objects.filter(pk__in=allowedAssos)
