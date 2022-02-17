@@ -12,8 +12,8 @@ urlpatterns = [
         name="get-user-infos",
     ),
     path(
-        "get_list_assos",
+        "get_assos_list",
         GetListAssos.as_view(),
-        name="get_list_assos",
+        name="get_assos_list",
     ),
 ]
