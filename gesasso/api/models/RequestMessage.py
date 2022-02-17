@@ -27,7 +27,3 @@ class RequestMessage(TimeStampable):
     origin = models.PositiveSmallIntegerField(
         choices=Origin.choices, default=Origin.DIRECT
     )
-
-    @property
-    def is_readable(self, user=None):
-        return self.type == self.Types.PUBLIC or user.is_superuser or self.user == user

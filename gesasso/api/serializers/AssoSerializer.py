@@ -8,7 +8,7 @@ class AssoSerializer(serializers.ModelSerializer):
 
     def get_parent(self, obj):
         """self referral field"""
-        serializer = AssoSerializer(pk=obj.parent.id)
+        serializer = AssoSerializer(obj.parent)
         return serializer.data
 
     class Meta:

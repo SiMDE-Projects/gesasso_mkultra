@@ -24,11 +24,19 @@ class Request(TimeStampable):
         DIRECT = 3, "DIRECT"
         MERGE = 4, "MERGE"
 
+        def to_representation(self, value):
+            return self.choices[value - 1][1]
+
+        def to_internal_value(self, value):
+            for choice in self.choices:
+                if choice[1] == value:
+                    return choice[0]
+
     id = models.AutoField(primary_key=True)
     title = models.CharField(blank=False, null=False, max_length=150)
-    description = models.TextField()
     due_date = models.DateTimeField(blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    assignees = models.ManyToManyField(User, blank=True, related_name="assignees")
     asso = models.ForeignKey(Asso, on_delete=models.CASCADE)
     status = models.PositiveSmallIntegerField(
         choices=Status.choices, default=Status.OPEN
