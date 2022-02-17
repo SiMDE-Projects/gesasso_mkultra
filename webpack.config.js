@@ -51,5 +51,10 @@ module.exports = {
       writeToDisk: true,
     },
   },
-  resolve: { extensions: ['*', '.js', '.jsx'] },
+  resolve: {
+    extensions: ['*', '.js', '.jsx'],
+    alias: {
+      '@gesasso': path.resolve(__dirname, 'gesasso/frontend/src'),
+    },
+  },
 };
