@@ -4,16 +4,17 @@ from rest_framework import serializers
 from gesasso.api.serializers import GroupSerializer
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     groups = GroupSerializer(many=True)
 
     class Meta:
         model = User
         fields = [
-            "url",
+            'id',
             "username",
             "first_name",
             "last_name",
+            "full_name",
             "email",
             "groups",
         ]
