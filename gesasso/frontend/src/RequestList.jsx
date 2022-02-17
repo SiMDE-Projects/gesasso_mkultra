@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import 'moment/locale/fr';
 import {
-  Dimmer, Image, Label, Loader, Segment, Table,
+  Dimmer, Icon, Image, Label, Loader, Popup, Segment, Table,
 } from 'semantic-ui-react';
-import AssoSelector from '@gesasso/components/AssoSelector';
 
 Moment.globalLocale = 'fr';
 Moment.globalLocal = true;
@@ -40,16 +39,39 @@ const RequestList = function () {
     );
   }
 
-  const translateStatus = (status) => {
+  const renderStatus = (status) => {
     switch (status) {
-      case 1:
-        return <Label ribbon color="yellow">Pending</Label>;
-      case 2:
-        return <Label ribbon color="green">Approved</Label>;
-      case 3:
-        return <Label ribbon color="red">Rejected</Label>;
+      case 'OPEN':
+        return <Label ribbon color="purple">Pending</Label>;
+      case 'ASSIGNED':
+        return <Label ribbon color="yellow">Assigned to tech</Label>;
+      case 'CLOSED':
+        return <Label ribbon color="red">Closed</Label>;
+      case 'DONE':
+        return <Label ribbon color="green">Done</Label>;
+      case 'WAITING_TECH':
+        return <Label ribbon color="orange">Waiting for tech</Label>;
+      case 'WAITING_FOR_TIERS_SERVICE':
+        return <Label ribbon color="orange">Waiting for tiers service</Label>;
+      case 'WAITING_FOR_CUSTOMER':
+        return <Label ribbon color="orange">Waiting for customer</Label>;
       default:
         return <Label ribbon color="blue">Unknown</Label>;
+    }
+  };
+
+  const renderOrigin = (origin) => {
+    switch (origin) {
+      case 'WEB':
+        return <Popup content="Web" position="right center" trigger={<Icon name="globe" />} />;
+      case 'MAIL':
+        return <Popup content="Mail" position="right center" trigger={<Icon name="mail" />} />;
+      case 'DIRECT':
+        return <Popup content="Direct" position="right center" trigger={<Icon name="phone" />} />;
+      case 'MERGE':
+        return <Popup content="Merged requests" position="right center" trigger={<Icon name="users" />} />;
+      default:
+        return <Popup content="Unknown" position="right center" trigger={<Icon name="question" />} />;
     }
   };
 
@@ -70,7 +92,7 @@ const RequestList = function () {
         {requests.map((x) => (
           <Table.Row key={x.id}>
             <Table.Cell>
-              {translateStatus(x.status)}
+              {renderStatus(x.status)}
             </Table.Cell>
             <Table.Cell>
               {x.title}
@@ -82,17 +104,28 @@ const RequestList = function () {
               {x.asso.shortname}
             </Table.Cell>
             <Table.Cell>
-              {x.origin}
+              {renderOrigin(x.origin)}
             </Table.Cell>
             <Table.Cell>
               {x.messages.length}
             </Table.Cell>
             <Table.Cell>
-              <Moment locale="fr" format="LLLL">{x.due_date}</Moment>
-              <Label>
-                <Moment to={x.due_date} />
-                <AssoSelector />
-              </Label>
+              {
+                x.due_date
+                  ? (
+                    <>
+                      <Moment locale="fr" format="LLLL">{x.due_date}</Moment>
+                      <Label>
+                        <Moment to={x.due_date} />
+                      </Label>
+                    </>
+                  )
+                  : (
+                    <Label>
+                      No due date
+                    </Label>
+                  )
+              }
             </Table.Cell>
           </Table.Row>
         ))}
