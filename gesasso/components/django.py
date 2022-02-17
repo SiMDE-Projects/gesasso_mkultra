@@ -22,7 +22,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "storages",
-    "debug_toolbar",
+    # "debug_toolbar",
     "webpack_loader",
     "oauth_pda_app",
     "gesasso.api",
