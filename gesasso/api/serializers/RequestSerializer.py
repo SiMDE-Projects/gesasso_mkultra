@@ -1,7 +1,11 @@
 from rest_framework import serializers
 
 from gesasso.api.models import Request
-from gesasso.api.serializers import AssoSerializer, RequestMessageSerializer, ActionSerializer
+from gesasso.api.serializers import (
+    AssoSerializer,
+    RequestMessageSerializer,
+    ActionSerializer,
+)
 from .UserSerializer import UserSerializer
 
 

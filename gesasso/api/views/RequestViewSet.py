@@ -14,6 +14,6 @@ class RequestViewSet(TrackerMixin, viewsets.ModelViewSet):
     API endpoint that allows requests to be viewed or edited.
     """
 
-    queryset = Request.objects.all().prefetch_related('user', 'messages', 'asso')
+    queryset = Request.objects.all().prefetch_related("user", "messages", "asso")
     serializer_class = RequestSerializer
     permission_classes = [permissions.IsAuthenticated]
