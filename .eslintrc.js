@@ -18,4 +18,7 @@ module.exports = {
     'react',
   ],
   rules: {},
+  settings: {
+    'import/resolver': 'webpack',
+  },
 };
