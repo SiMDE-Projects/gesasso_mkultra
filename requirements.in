@@ -12,6 +12,7 @@ django-storages>=1.12.3
 django-webpack-loader>=0.7.0
 djangorestframework>=3.12.4
 drf-psq
+factory_boy
 flake8>=4.0
 getconf>=1.10.0
 mysqlclient>=2.1

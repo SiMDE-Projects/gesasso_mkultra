@@ -1,6 +1,6 @@
 import factory.django
 
-from proxy_pda.models import Asso
+from gesasso.proxy_pda.models import Asso
 
 
 class AssoFactory(factory.django.DjangoModelFactory):
