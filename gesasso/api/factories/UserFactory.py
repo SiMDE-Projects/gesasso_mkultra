@@ -3,7 +3,7 @@ from oauth_pda_app.models import User
 
 
 class UserFactory(factory.django.DjangoModelFactory):
-    username = factory.Faker("name")
+    username = factory.Faker("uuid4")
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
     email = factory.Faker("email")

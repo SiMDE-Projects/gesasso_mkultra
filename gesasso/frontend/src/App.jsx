@@ -2,9 +2,9 @@
 
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Container, Header } from 'semantic-ui-react';
-import SessionContext from './SessionContext';
-import AssoSelector from '@gesasso/components/AssoSelector';
+import { Dimmer, Loader } from 'semantic-ui-react';
+import RequestView from '@gesasso/RequestView';
+import SessionContext from '@gesasso/SessionContext';
 
 const HomePage = lazy(() => import('./HomePage'));
 const Layout = lazy(() => import('./Layout'));
@@ -35,11 +35,9 @@ const App = function () {
     `}
       </style>
       <Suspense fallback={(
-        <Container>
-          <Header as="h2" icon inverted textAlign="center">
-            Loading ...
-          </Header>
-        </Container>
+        <Dimmer active>
+          <Loader indeterminate>Loading Ges'Asso</Loader>
+        </Dimmer>
       )}
       >
         <SessionContext.Provider value={{ user, updateUser }}>
@@ -47,7 +45,7 @@ const App = function () {
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route path="/" element={<HomePage />} />
-                <Route path="/req" element={<AssoSelector />} />
+                <Route path="/requests/:id" element={<RequestView />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>

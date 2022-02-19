@@ -42,5 +42,6 @@ class RequestSerializer(serializers.HyperlinkedModelSerializer):
             "actions",
             "messages",
             "assignees",
+            "created",
         ]
         read_only_fields = ["messages"]
