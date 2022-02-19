@@ -78,6 +78,10 @@ drf-psq==1.1.0
     # via -r requirements.in
 drf-spectacular==0.21.2
     # via oauth-pda-app
+factory-boy==3.2.1
+    # via -r requirements.in
+faker==13.0.0
+    # via factory-boy
 filelock==3.4.2
     # via virtualenv
 flake8==4.0.1
@@ -104,7 +108,7 @@ mysqlclient==2.1.0
     # via -r requirements.in
 nodeenv==1.6.0
     # via pre-commit
-oauth-pda-app @ git+https://github.com/SiMDE-Projects/oauth_pda_utc@djangoversionconstraint
+oauth-pda-app @ git+https://github.com/SiMDE-Projects/oauth_pda_utc@v0.2.1
     # via -r requirements.in
 oauthlib==3.2.0
     # via oauth-pda-app
@@ -151,6 +155,8 @@ pytest-lazy-fixture==0.6.3
     # via -r requirements.in
 pytest-watch==4.2.0
     # via -r requirements.in
+python-dateutil==2.8.2
+    # via faker
 python-stdnum==1.17
     # via django-localflavor
 pytz==2021.3
@@ -167,7 +173,9 @@ requests==2.27.1
 responses==0.18.0
     # via -r requirements.in
 six==1.16.0
-    # via virtualenv
+    # via
+    #   python-dateutil
+    #   virtualenv
 sqlparse==0.4.2
     # via
     #   django
