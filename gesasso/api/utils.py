@@ -1,6 +1,9 @@
 import json
 import logging
+from datetime import datetime
 
+from django.contrib.admin.models import CHANGE, LogEntry, ADDITION, DELETION
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils import timezone
 
@@ -113,3 +116,51 @@ class TimeStampable(TimeStampableMixin, Model):
 
     class Meta:
         abstract = True
+
+
+class TrackerMixin:
+    def perform_destroy(self, instance):
+        """
+        Override the create method to log the destruction of the object
+        """
+        LogEntry.objects.log_action(
+            user_id=self.request.user.pk,
+            content_type_id=ContentType.objects.get_for_model(self.queryset.model).pk,
+            object_id=instance.pk,
+            object_repr=repr(instance),
+            action_flag=DELETION,
+            change_message="Removed by user {}".format(self.request.user.full_name),
+        )
+        super().perform_destroy(instance)
+
+    def perform_create(self, serializer):
+        """
+        Override the create method to log the creation of the object
+        """
+        super().perform_create(serializer)
+        LogEntry.objects.log_action(
+            user_id=self.request.user.pk,
+            content_type_id=ContentType.objects.get_for_model(self.queryset.model).pk,
+            object_id=serializer.instance.pk,
+            object_repr=repr(serializer.instance),
+            action_flag=ADDITION,
+            change_message="Created by user {}".format(self.request.user.username),
+        )
+
+    def perform_update(self, serializer):
+        """
+        Override the create method to log the update of the object
+        """
+        super().perform_update(serializer)
+        LogEntry.objects.log_action(
+            user_id=self.request.user.pk,
+            content_type_id=ContentType.objects.get_for_model(self.queryset.model).pk,
+            object_id=serializer.instance.pk,
+            object_repr=repr(serializer.instance),
+            action_flag=CHANGE,
+            change_message="Updated by user {}".format(self.request.user.username),
+        )
+
+
+def date_to_timezone(date: str):
+    return timezone.make_aware(datetime.strptime(date, "%Y-%m-%d %H:%M:%S"))

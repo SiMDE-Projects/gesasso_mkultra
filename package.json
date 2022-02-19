@@ -6,7 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server --config webpack.config.js --mode development --port 8081",
-    "build": "webpack --config webpack.config.js --mode production"
+    "build": "webpack --config webpack.config.js --mode production",
+    "build-dev": "webpack --config webpack.config.js --mode development",
+    "postinstall": "semantic-ui-css-patch",
+    "lint": "eslint gesasso/frontend/src/**/*.jsx",
+    "lint-fix": "eslint gesasso/frontend/src/**/*.jsx --fix"
   },
   "repository": {
     "type": "git",
@@ -20,10 +24,13 @@
   },
   "homepage": "https://github.com/SiMDE-Projects/gesasso_mkultra#readme",
   "dependencies": {
-    "axios": "^0.24.0",
+    "axios": "^0.25.0",
     "eslint-loader": "^4.0.2",
+    "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-moment": "^1.1.1",
+    "react-router-dom": "^6.2.1",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.4",
     "uglifyjs-webpack-plugin": "^2.2.0"
@@ -32,6 +39,7 @@
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-react": "^7.16.0",
+    "@semantic-ui-react/css-patch": "^1.0.0",
     "babel-loader": "^8.2.3",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.5.1",
@@ -42,6 +50,7 @@
     "eslint-plugin-react": "^7.27.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "file-loader": "^6.2.0",
+    "moment-locales-webpack-plugin": "^1.2.0",
     "style-loader": "^3.3.1",
     "url-loader": "^4.1.1",
     "webpack": "^5.64.0",

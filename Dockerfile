@@ -46,6 +46,7 @@ ADD . /code/
 
 # Collect static files
 RUN GESASSO_DJANGO_SECRET=whatever python manage.py collectstatic --noinput --clear
+RUN chown -R gesasso:gesasso /static
 
 # Switch to unprivileged user
 USER gesasso

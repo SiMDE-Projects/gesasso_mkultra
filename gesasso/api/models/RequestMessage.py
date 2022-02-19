@@ -1,4 +1,5 @@
 from django.db import models
+from oauth_pda_app.models import User
 
 from gesasso.api.models import Request
 from gesasso.api.utils import TimeStampable
@@ -17,13 +18,12 @@ class RequestMessage(TimeStampable):
         DIRECT = 2, "DIRECT"
 
     id = models.AutoField(primary_key=True)
-    request = models.ForeignKey(Request, on_delete=models.CASCADE)
+    request = models.ForeignKey(
+        Request, on_delete=models.CASCADE, related_name="messages"
+    )
     message = models.TextField()
-    user = models.ForeignKey("User", on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     type = models.PositiveSmallIntegerField(choices=Types.choices, default=Types.PUBLIC)
     origin = models.PositiveSmallIntegerField(
         choices=Origin.choices, default=Origin.DIRECT
     )
-
-    def is_readable(self, user):
-        return self.type == self.Types.PUBLIC or user.is_superuser or self.user == user
