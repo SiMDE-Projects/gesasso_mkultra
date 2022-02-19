@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import 'moment/locale/fr';
 import {
-  Dimmer, Icon, Image, Label, Loader, Popup, Segment, Table,
+  Button, Dimmer, Icon, Image, Label, Loader, Popup, Segment, Table,
 } from 'semantic-ui-react';
+import { useNavigate } from 'react-router-dom';
 
 Moment.globalLocale = 'fr';
 Moment.globalLocal = true;
@@ -11,6 +12,8 @@ Moment.globalLocal = true;
 const RequestList = function () {
   const [loading, setLoading] = useState(true);
   const [requests, setRequests] = useState([]);
+  const navigate = useNavigate();
+
   useEffect(() => {
     fetch('/api/requests/')
       .then((response) => {
@@ -40,24 +43,43 @@ const RequestList = function () {
   }
 
   const renderStatus = (status) => {
+    let color = '';
+    let text = '';
     switch (status) {
       case 'OPEN':
-        return <Label ribbon color="purple">Pending</Label>;
+        color = 'purple';
+        text = 'Pending';
+        break;
       case 'ASSIGNED':
-        return <Label ribbon color="yellow">Assigned to tech</Label>;
+        color = 'yellow';
+        text = 'Assigned to tech';
+        break;
       case 'CLOSED':
-        return <Label ribbon color="red">Closed</Label>;
+        color = 'red';
+        text = 'Closed';
+        break;
       case 'DONE':
-        return <Label ribbon color="green">Done</Label>;
+        color = 'green';
+        text = 'Done';
+        break;
       case 'WAITING_TECH':
-        return <Label ribbon color="orange">Waiting for tech</Label>;
+        color = 'orange';
+        text = 'Waiting for tech';
+        break;
       case 'WAITING_FOR_TIERS_SERVICE':
-        return <Label ribbon color="orange">Waiting for tiers service</Label>;
+        color = 'orange';
+        text = 'Waiting for tiers service';
+        break;
       case 'WAITING_FOR_CUSTOMER':
-        return <Label ribbon color="orange">Waiting for customer</Label>;
+        color = 'orange';
+        text = 'Waiting for customer';
+        break;
       default:
-        return <Label ribbon color="blue">Unknown</Label>;
+        color = 'blue';
+        text = 'Unknown';
+        break;
     }
+    return <Label ribbon color="blue">Unknown</Label>;
   };
 
   const renderOrigin = (origin) => {
@@ -86,6 +108,7 @@ const RequestList = function () {
           <Table.HeaderCell>Origin</Table.HeaderCell>
           <Table.HeaderCell>Messages</Table.HeaderCell>
           <Table.HeaderCell>Due date</Table.HeaderCell>
+          <Table.HeaderCell>Actions</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
@@ -126,6 +149,17 @@ const RequestList = function () {
                     </Label>
                   )
               }
+            </Table.Cell>
+            <Table.Cell>
+              <Button
+                icon
+                color="blue"
+                onClick={() => {
+                  navigate(`/requests/${x.id}`);
+                }}
+              >
+                <Icon name="eye" />
+              </Button>
             </Table.Cell>
           </Table.Row>
         ))}
