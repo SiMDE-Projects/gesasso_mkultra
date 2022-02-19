@@ -16,7 +16,7 @@ factory_boy
 flake8>=4.0
 getconf>=1.10.0
 mysqlclient>=2.1
-oauth_pda_app@ git+https://github.com/SiMDE-Projects/oauth_pda_utc@djangoversionconstraint
+oauth_pda_app@ git+https://github.com/SiMDE-Projects/oauth_pda_utc@v0.2.1
 pip-tools>=6.5
 pre-commit>=2.17
 pytest-cov>=3.0
