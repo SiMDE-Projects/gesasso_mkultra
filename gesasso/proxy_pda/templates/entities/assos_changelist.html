@@ -3,10 +3,9 @@
 {% block object-tools %}
     <div>
         <form action="sync/" method="POST">
-            {% csrf_token %}
-                <button type="submit">Synchronize assos</button>
+            <button type="submit">Synchronize assos</button>
         </form>
     </div>
-    <br />
+    <br/>
     {{ block.super }}
 {% endblock %}

@@ -1,11 +1,9 @@
 from django.contrib import admin
 from django.contrib.admin.models import LogEntry
-from django.http import HttpResponseRedirect
-from django.urls import path
-from django.utils.translation import gettext_lazy as _
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
 
-from gesasso.api.models import Action, ActionType, Task, TaskType, Request, Asso, User
-from gesasso.api.views import AssosViewSet
+from gesasso.api.models import Action, ActionType, Request
 
 
 @admin.register(LogEntry)
@@ -19,56 +17,38 @@ class LogAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None):
         return False
 
-    list_display = (
+    def has_view_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+    def object_link(self, obj):
+        link = escape(obj.object_repr)
+        # TODO: fix url reversing
+        # if obj.action_flag == DELETION:
+        #     link = escape(obj.object_repr)
+        # else:
+        #     ct = obj.content_type
+        #     link = '<a href="%s">%s</a>' % (
+        #         reverse('admin:%s_%s_change' % (ct.app_label, ct.model), args=[obj.object_id]),
+        #         escape(obj.object_repr),
+        #     )
+        return mark_safe(link)
+
+    object_link.admin_order_field = "object_repr"
+    object_link.short_description = "object"
+
+    date_hierarchy = "action_time"
+
+    list_filter = ["user", "content_type", "action_flag"]
+
+    search_fields = ["object_repr", "change_message"]
+
+    list_display = [
         "action_time",
         "user",
         "content_type",
-        "object_id",
-        "object_repr",
+        "object_link",
         "action_flag",
-        "change_message",
-    )
-
-
-@admin.register(Asso)
-class AssoAdmin(admin.ModelAdmin):
-    change_list_template = "entities/assos_changelist.html"
-
-    def get_urls(self):
-        urls = super().get_urls()
-        my_urls = [
-            path("sync/", self.sync),
-        ]
-        return my_urls + urls
-
-    def sync(self, request):
-        AssosViewSet.sync_assos()
-        self.message_user(request, "All assos are now in sync")
-        return HttpResponseRedirect("../")
-
-    def has_add_permission(self, request):
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-    def has_change_permission(self, request, obj=None):
-        return False
-
-    list_display = ("login", "shortname", "name", "parent")
-    list_filter = (("parent", admin.RelatedOnlyFieldListFilter),)
-    search_fields = ("login", "shortname", "name")
-    ordering = ("login", "shortname", "name")
-
-
-@admin.register(TaskType)
-class CommonAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(Task)
-class TaskAdmin(admin.ModelAdmin):
-    pass
+    ]
 
 
 @admin.register(ActionType)
@@ -86,66 +66,9 @@ class RequestAdmin(admin.ModelAdmin):
     )
 
 
-class TaskTypeInline(admin.StackedInline):
-    model = Task
-    can_delete = False
-    extra = 0
-
-
 @admin.register(Action)
 class ActionAdmin(admin.ModelAdmin):
     pass
-
-
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    def has_add_permission(self, request):
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-    fieldsets = (
-        (None, {"fields": ("username",)}),
-        (_("Personal info"), {"fields": ("first_name", "last_name", "email")}),
-        (
-            _("Permissions"),
-            {
-                "fields": (
-                    "is_active",
-                    "is_staff",
-                    "is_superuser",
-                    "groups",
-                    "user_permissions",
-                ),
-            },
-        ),
-        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
-    )
-    list_display = (
-        "username",
-        "email",
-        "first_name",
-        "last_name",
-        "is_staff",
-        "is_superuser",
-    )
-    list_filter = ("is_staff", "is_superuser", "is_active", "groups")
-    search_fields = ("username", "first_name", "last_name", "email")
-    readonly_fields = (
-        "last_login",
-        "date_joined",
-        "is_active",
-        "username",
-        "first_name",
-        "last_name",
-        "email",
-    )
-    ordering = ("last_name", "first_name")
-    filter_horizontal = (
-        "groups",
-        "user_permissions",
-    )
 
 
 admin.site.site_header = "Gesasso MK_Ultra"

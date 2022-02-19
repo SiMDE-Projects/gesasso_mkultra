@@ -1,10 +1,11 @@
-const path = require('path')
-const BundleTracker = require('webpack-bundle-tracker')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const path = require('path');
+const BundleTracker = require('webpack-bundle-tracker');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: {
-    frontend: './gesasso/frontend/src/index.js',
+    frontend: './gesasso/frontend/src/index.jsx',
   },
   output: {
     path: path.resolve('./gesasso/frontend/dist'),
@@ -13,6 +14,9 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
+    new MomentLocalesPlugin({
+      localesToKeep: ['fr'],
+    }),
     new BundleTracker({
       path: __dirname,
       filename: './gesasso/frontend/webpack-stats.json',
@@ -21,11 +25,11 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
+        test: /\.jsx?$/,
+        exclude: /(node_modules|venv)/,
         use: {
-            loader: "babel-loader",
-            options: {presets: ["@babel/env", "@babel/preset-react"]}
+          loader: 'babel-loader',
+          options: { presets: ['@babel/env', '@babel/preset-react'] },
         },
       },
       {
@@ -44,7 +48,13 @@ module.exports = {
   },
   devServer: {
     devMiddleware: {
-        writeToDisk: true,
+      writeToDisk: true,
     },
   },
-}
+  resolve: {
+    extensions: ['*', '.js', '.jsx'],
+    alias: {
+      '@gesasso': path.resolve(__dirname, 'gesasso/frontend/src'),
+    },
+  },
+};
