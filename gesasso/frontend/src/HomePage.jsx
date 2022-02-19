@@ -5,13 +5,7 @@ import SessionContext from './SessionContext';
 const HomePage = function () {
   const context = useContext(SessionContext);
 
-  return (
-    <>
-      {
-        context.user !== null && <RequestList />
-      }
-    </>
-  );
+  return context.user !== null && <RequestList />;
 };
 
 export default HomePage;

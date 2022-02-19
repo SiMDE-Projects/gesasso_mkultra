@@ -14,8 +14,9 @@ class RequestMessage(TimeStampable):
         INFO = 5, "INFO"
 
     class Origin(models.IntegerChoices):
-        MAIL = 1, "MAIL"
-        DIRECT = 2, "DIRECT"
+        WEB = 1, "WEB"
+        MAIL = 2, "MAIL"
+        DIRECT = 3, "DIRECT"
 
     id = models.AutoField(primary_key=True)
     request = models.ForeignKey(
