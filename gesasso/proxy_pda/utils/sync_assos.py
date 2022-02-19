@@ -35,7 +35,7 @@ def sync_assos(request):
                 )
                 bulk_update.append(asso)
         else:
-            if data["in_cemetery_at"] or data["in_cemetery_at"]:
+            if data["in_cemetery_at"] is not None:
                 bulk_delete.append(data["id"])
             else:
                 if (
