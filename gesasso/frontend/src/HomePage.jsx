@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
-import RequestList from './RequestList';
-import SessionContext from './SessionContext';
+import React, { lazy, useContext } from 'react';
+import SessionContext from '@gesasso/SessionContext';
 
-const HomePage = function () {
+const RequestList = lazy(() => import('@gesasso/RequestList'));
+
+const HomePage = () => {
   const context = useContext(SessionContext);
 
   return context.user !== null && <RequestList />;

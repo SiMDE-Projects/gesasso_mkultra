@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import Moment from 'react-moment';
-import 'moment/locale/fr';
 import {
-  Button, Dimmer, Icon, Image, Label, Loader, Popup, Segment, Table,
+  Button, Icon, Label, Table,
 } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
+
+const Moment = React.lazy(() => import('react-moment'));
+React.lazy(() => import('moment/locale/fr'));
+
+const StatusLabel = React.lazy(() => import('@gesasso/components/StatusLabel'));
+const OriginIcon = React.lazy(() => import('@gesasso/components/OriginIcon'));
+
+const LoaderOverlay = React.lazy(() => import('@gesasso/components/LoaderOverlay'));
 
 Moment.globalLocale = 'fr';
 Moment.globalLocal = true;
 
-const RequestList = function () {
+const RequestList = () => {
   const [loading, setLoading] = useState(true);
   const [requests, setRequests] = useState([]);
   const navigate = useNavigate();
@@ -31,71 +37,8 @@ const RequestList = function () {
   }, []);
 
   if (loading) {
-    return (
-      <Segment>
-        <Dimmer active>
-          <Loader indeterminate>Fetching requests</Loader>
-        </Dimmer>
-
-        <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
-      </Segment>
-    );
+    return <LoaderOverlay content="Fetching requests ..." />;
   }
-
-  const renderStatus = (status) => {
-    let color = '';
-    let text = '';
-    switch (status) {
-      case 'OPEN':
-        color = 'purple';
-        text = 'Pending';
-        break;
-      case 'ASSIGNED':
-        color = 'yellow';
-        text = 'Assigned to tech';
-        break;
-      case 'CLOSED':
-        color = 'red';
-        text = 'Closed';
-        break;
-      case 'DONE':
-        color = 'green';
-        text = 'Done';
-        break;
-      case 'WAITING_TECH':
-        color = 'orange';
-        text = 'Waiting for tech';
-        break;
-      case 'WAITING_FOR_TIERS_SERVICE':
-        color = 'orange';
-        text = 'Waiting for tiers service';
-        break;
-      case 'WAITING_FOR_CUSTOMER':
-        color = 'orange';
-        text = 'Waiting for customer';
-        break;
-      default:
-        color = 'blue';
-        text = 'Unknown';
-        break;
-    }
-    return <Label ribbon color="blue">Unknown</Label>;
-  };
-
-  const renderOrigin = (origin) => {
-    switch (origin) {
-      case 'WEB':
-        return <Popup content="Web" position="right center" trigger={<Icon name="globe" />} />;
-      case 'MAIL':
-        return <Popup content="Mail" position="right center" trigger={<Icon name="mail" />} />;
-      case 'DIRECT':
-        return <Popup content="Direct" position="right center" trigger={<Icon name="phone" />} />;
-      case 'MERGE':
-        return <Popup content="Merged requests" position="right center" trigger={<Icon name="users" />} />;
-      default:
-        return <Popup content="Unknown" position="right center" trigger={<Icon name="question" />} />;
-    }
-  };
 
   return (
     <Table celled>
@@ -115,7 +58,7 @@ const RequestList = function () {
         {requests.map((x) => (
           <Table.Row key={x.id}>
             <Table.Cell>
-              {renderStatus(x.status)}
+              <StatusLabel status={x.status} />
             </Table.Cell>
             <Table.Cell>
               {x.title}
@@ -127,7 +70,7 @@ const RequestList = function () {
               {x.asso.shortname}
             </Table.Cell>
             <Table.Cell>
-              {renderOrigin(x.origin)}
+              <OriginIcon origin={x.origin} />
             </Table.Cell>
             <Table.Cell>
               {x.messages.length}

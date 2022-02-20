@@ -7,4 +7,5 @@ const SessionContext = React.createContext({
     console.error('updateUser not implemented');
   },
 });
+
 export default SessionContext;
