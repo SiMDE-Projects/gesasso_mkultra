@@ -31,6 +31,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/requests/new" element="Not Yet Implemented, waiting issue #17" />
                 <Route path="/requests/:id" element={<RequestView />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
