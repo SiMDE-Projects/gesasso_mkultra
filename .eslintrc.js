@@ -17,7 +17,16 @@ module.exports = {
   plugins: [
     'react',
   ],
-  rules: {},
+  rules: {
+    'react/jsx-no-constructed-context-values': 'off',
+    'react/function-component-definition': [
+      'error',
+      {
+        namedComponents: 'arrow-function',
+        unnamedComponents: 'arrow-function',
+      },
+    ],
+  },
   settings: {
     'import/resolver': 'webpack',
   },

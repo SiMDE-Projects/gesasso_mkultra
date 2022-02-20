@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Menu } from 'semantic-ui-react';
-import SessionContext from '../SessionContext';
 
-const UserInfo = function () {
+import SessionContext from '@gesasso/SessionContext';
+
+const UserInfo = () => {
   const [loading, setLoading] = useState(true);
   const [authLink, setAuthLink] = useState('');
   const context = useContext(SessionContext);

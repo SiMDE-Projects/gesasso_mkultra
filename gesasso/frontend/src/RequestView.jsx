@@ -1,18 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { lazy, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Moment from 'react-moment';
-import 'moment/locale/fr';
 import {
-  Dimmer, Header, Icon, Image, Label, Loader, Segment,
+  Header, Icon, Label, Segment,
 } from 'semantic-ui-react';
-import StatusLabel from '@gesasso/components/StatusLabel';
-import OriginIcon from '@gesasso/components/OriginIcon';
-import RequestMessagesFeed from '@gesasso/components/RequestMessagesFeed';
 
-const RequestView = function () {
+const Moment = lazy(() => import('react-moment'));
+lazy(() => import('moment/locale/fr'));
+
+const RequestMessagesFeed = lazy(() => import('@gesasso/components/RequestMessagesFeed'));
+
+const StatusLabel = lazy(() => import('@gesasso/components/StatusLabel'));
+const OriginIcon = lazy(() => import('@gesasso/components/OriginIcon'));
+const LoaderOverlay = lazy(() => import('@gesasso/components/LoaderOverlay'));
+
+const RequestView = () => {
   const { id } = useParams();
-  const [request, setRequest] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
+  const [request, setRequest] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(`/api/requests/${id}/`)
@@ -31,14 +35,7 @@ const RequestView = function () {
   }, []);
 
   if (loading) {
-    return (
-      <Segment>
-        <Dimmer active>
-          <Loader indeterminate>Fetching request</Loader>
-        </Dimmer>
-        <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
-      </Segment>
-    );
+    return <LoaderOverlay content="Fetching request ..." />;
   }
 
   return (

@@ -9,8 +9,8 @@
     "build": "webpack --config webpack.config.js --mode production",
     "build-dev": "webpack --config webpack.config.js --mode development",
     "postinstall": "semantic-ui-css-patch",
-    "lint": "eslint gesasso/frontend/src/**/*.jsx",
-    "lint-fix": "eslint gesasso/frontend/src/**/*.jsx --fix"
+    "lint": "eslint gesasso/frontend/src/**.js gesasso/frontend/src/**.jsx",
+    "lint-fix": "eslint gesasso/frontend/src/**.js gesasso/frontend/src/**.jsx --fix"
   },
   "repository": {
     "type": "git",
