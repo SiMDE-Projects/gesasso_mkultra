@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import { Container, Header, Menu } from 'semantic-ui-react';
 import { Outlet } from 'react-router-dom';
-import UserInfo from './components/UserInfo';
 
-const Layout = function () {
+const UserInfo = lazy(() => import('@gesasso/components/UserInfo'));
+
+const Layout = () => {
   const [activeItem, setActiveItem] = React.useState('Home');
   const handleItemClick = (e, { name }) => setActiveItem(name);
   return (
