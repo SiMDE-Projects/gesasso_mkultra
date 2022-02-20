@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Icon, Popup } from 'semantic-ui-react';
 
-function OriginIcon({ origin }) {
+const OriginIcon = ({ origin }) => {
   let icon = 'question';
   let text = 'Type inconnu';
   switch (origin) {
@@ -23,7 +23,7 @@ function OriginIcon({ origin }) {
       break;
   }
   return <Popup content={text} position="right center" trigger={<Icon name={icon} />} />;
-}
+};
 
 OriginIcon.propTypes = {
   origin: PropTypes.string.isRequired,

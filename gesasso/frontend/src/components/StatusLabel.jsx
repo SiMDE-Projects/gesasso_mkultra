@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Label } from 'semantic-ui-react';
 
-function StatusLabel({ status }) {
+const StatusLabel = ({ status }) => {
   let color = 'blue';
   let text = 'Unknown';
   switch (status) {
@@ -39,7 +39,7 @@ function StatusLabel({ status }) {
       break;
   }
   return <Label ribbon color={color}>{text}</Label>;
-}
+};
 
 StatusLabel.propTypes = {
   status: PropTypes.string.isRequired,

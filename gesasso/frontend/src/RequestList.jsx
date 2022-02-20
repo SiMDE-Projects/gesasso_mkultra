@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import Moment from 'react-moment';
-import 'moment/locale/fr';
 import {
-  Button, Dimmer, Icon, Image, Label, Loader, Segment, Table,
+  Button, Icon, Label, Table,
 } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
-import StatusLabel from '@gesasso/components/StatusLabel';
-import OriginIcon from '@gesasso/components/OriginIcon';
+
+const Moment = React.lazy(() => import('react-moment'));
+React.lazy(() => import('moment/locale/fr'));
+
+const StatusLabel = React.lazy(() => import('@gesasso/components/StatusLabel'));
+const OriginIcon = React.lazy(() => import('@gesasso/components/OriginIcon'));
+
+const LoaderOverlay = React.lazy(() => import('@gesasso/components/LoaderOverlay'));
 
 Moment.globalLocale = 'fr';
 Moment.globalLocal = true;
 
-const RequestList = function () {
+const RequestList = () => {
   const [loading, setLoading] = useState(true);
   const [requests, setRequests] = useState([]);
   const navigate = useNavigate();
@@ -33,15 +37,7 @@ const RequestList = function () {
   }, []);
 
   if (loading) {
-    return (
-      <Segment>
-        <Dimmer active>
-          <Loader indeterminate>Fetching requests</Loader>
-        </Dimmer>
-
-        <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
-      </Segment>
-    );
+    return <LoaderOverlay content="Fetching requests ..." />;
   }
 
   return (
