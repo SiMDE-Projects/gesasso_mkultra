@@ -2,11 +2,13 @@ const path = require('path');
 const BundleTracker = require('webpack-bundle-tracker');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
   entry: {
-    frontend: './gesasso/frontend/src/index.jsx',
+    frontend: './gesasso/frontend/src/index.tsx',
   },
+  devtool: 'inline-source-map',
   output: {
     path: path.resolve('./gesasso/frontend/dist'),
     filename: '[name]-[chunkhash].js',
@@ -33,6 +35,11 @@ module.exports = {
         },
       },
       {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /(node_modules|venv)/,
+      },
+      {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
@@ -52,7 +59,8 @@ module.exports = {
     },
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx'],
+    extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
+    plugins: [new TsconfigPathsPlugin()],
     alias: {
       '@gesasso': path.resolve(__dirname, 'gesasso/frontend/src'),
     },

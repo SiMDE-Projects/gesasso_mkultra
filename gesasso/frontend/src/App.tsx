@@ -3,12 +3,12 @@
 import React, { lazy, Suspense, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Fallback from '@gesasso/components/Fallback';
-import SessionContext from '@gesasso/SessionContext';
+import SessionContext from '@gesasso/utils/SessionContext';
 
-const RequestView = lazy(() => import('@gesasso/RequestView'));
-const HomePage = lazy(() => import('@gesasso/HomePage'));
-const Layout = lazy(() => import('@gesasso/Layout'));
-const NotFound = lazy(() => import('@gesasso/NotFound'));
+const RequestView = lazy(() => import('@gesasso/pages/RequestView'));
+const HomePage = lazy(() => import('@gesasso/pages/HomePage'));
+const Layout = lazy(() => import('@gesasso/utils/Layout'));
+const NotFound = lazy(() => import('@gesasso/pages/NotFound'));
 
 const App = () => {
   const [user, setUser] = useState(null);

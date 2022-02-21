@@ -4,7 +4,11 @@ import {
   Dimmer, Image, Loader, Segment,
 } from 'semantic-ui-react';
 
-const LoaderOverlay = ({ content }) => (
+export interface Props {
+  content: React.ReactNode,
+}
+
+const LoaderOverlay = ({ content }: Props) => (
   <Segment>
     <Dimmer active>
       <Loader indeterminate>{content}</Loader>
