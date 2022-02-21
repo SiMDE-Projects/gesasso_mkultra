@@ -3,17 +3,14 @@ import {
   Button, Icon, Label, Table,
 } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
+import 'moment/locale/fr';
 
 const Moment = React.lazy(() => import('react-moment'));
-React.lazy(() => import('moment/locale/fr'));
 
 const StatusLabel = React.lazy(() => import('@gesasso/components/StatusLabel'));
 const OriginIcon = React.lazy(() => import('@gesasso/components/OriginIcon'));
 
 const LoaderOverlay = React.lazy(() => import('@gesasso/components/LoaderOverlay'));
-
-Moment.globalLocale = 'fr';
-Moment.globalLocal = true;
 
 const RequestList = () => {
   const [loading, setLoading] = useState(true);
@@ -77,21 +74,21 @@ const RequestList = () => {
             </Table.Cell>
             <Table.Cell>
               {
-                x.due_date
-                  ? (
-                    <>
-                      <Moment locale="fr" format="LLLL">{x.due_date}</Moment>
-                      <Label>
-                        <Moment to={x.due_date} />
-                      </Label>
-                    </>
-                  )
-                  : (
-                    <Label>
-                      No due date
-                    </Label>
-                  )
-              }
+                                x.due_date
+                                  ? (
+                                    <>
+                                      <Moment locale="fr" format="LLLL">{x.due_date}</Moment>
+                                      <Label>
+                                        <Moment to={x.due_date} />
+                                      </Label>
+                                    </>
+                                  )
+                                  : (
+                                    <Label>
+                                      No due date
+                                    </Label>
+                                  )
+                            }
             </Table.Cell>
             <Table.Cell>
               <Button
