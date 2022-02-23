@@ -1,7 +1,7 @@
 import React, { lazy, useContext } from 'react';
-import SessionContext from '@gesasso/SessionContext';
+import SessionContext from '@gesasso/utils/SessionContext';
 
-const RequestList = lazy(() => import('@gesasso/RequestList'));
+const RequestList = lazy(() => import('@gesasso/pages/RequestList'));
 
 const HomePage = () => {
   const context = useContext(SessionContext);

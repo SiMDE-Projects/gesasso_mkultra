@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Label } from 'semantic-ui-react';
+import { Label, SemanticCOLORS } from 'semantic-ui-react';
 
-const StatusLabel = ({ status }) => {
-  let color = 'blue';
+export interface StatusLabelProps {
+  status: string;
+}
+
+const StatusLabel = ({ status }: StatusLabelProps) => {
+  let color: SemanticCOLORS = 'blue';
   let text = 'Unknown';
   switch (status) {
     case 'OPEN':

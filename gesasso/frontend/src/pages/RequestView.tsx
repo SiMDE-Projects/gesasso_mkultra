@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom';
 import {
   Header, Icon, Label, Segment,
 } from 'semantic-ui-react';
+import 'moment/locale/fr';
 
 const Moment = lazy(() => import('react-moment'));
-lazy(() => import('moment/locale/fr'));
 
 const RequestMessagesFeed = lazy(() => import('@gesasso/components/RequestMessagesFeed'));
 
