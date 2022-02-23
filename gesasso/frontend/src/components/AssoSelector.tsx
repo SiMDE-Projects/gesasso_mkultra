@@ -2,12 +2,20 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
 
+export interface IAssoSelectorProps {
+  onChange(value: string): void;
+
+  value: string;
+  fluid: boolean;
+  placeholder: string;
+}
+
 const AssoSelector = ({
   onChange,
   value,
   fluid,
   placeholder,
-}) => {
+}: IAssoSelectorProps) => {
   const [loading, setLoading] = useState(true);
   const [assosList, setAssosList] = useState([]);
   const [asso, setAsso] = useState(value);
@@ -18,8 +26,8 @@ const AssoSelector = ({
       .then((response) => {
         if (response.status === 200) {
           response.json().then((validResponse) => {
-            const assosTmp = [];
-            validResponse.results.forEach((x) => {
+            const assosTmp: React.SetStateAction<any[]> = [];
+            validResponse.results.forEach((x: { id: string; shortname: string; }) => {
               assosTmp.push({
                 key: x.id,
                 value: x.id,
@@ -35,7 +43,7 @@ const AssoSelector = ({
       });
   }, []);
 
-  const handleChange = (e, { v }) => {
+  const handleChange = (e: object, { v }: any) => {
     setAsso(v);
     onChange(v);
   };

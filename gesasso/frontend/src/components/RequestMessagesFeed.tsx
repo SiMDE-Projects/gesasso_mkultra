@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import {
   Feed, Header, Icon, Label, Message,
 } from 'semantic-ui-react';
+import 'moment/locale/fr';
 
 const Moment = React.lazy(() => import('react-moment'));
-React.lazy(() => import('moment/locale/fr'));
 
 const RequestMessagesFeed = ({ messages }) => (
   <Feed>

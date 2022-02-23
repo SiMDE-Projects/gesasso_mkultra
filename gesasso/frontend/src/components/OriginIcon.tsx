@@ -1,11 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Icon, Popup } from 'semantic-ui-react';
+import { Icon, Popup, SemanticICONS } from 'semantic-ui-react';
 
-const OriginIcon = ({ origin }) => {
-  let icon = 'question';
-  let text = 'Type inconnu';
+export interface OriginIconProps {
+  origin: 'WEB' | 'MAIL' | 'DIRECT';
+}
+
+const OriginIcon = ({ origin }: OriginIconProps) => {
+  let icon: SemanticICONS = 'question';
+  let text: string = 'Type inconnu';
   switch (origin) {
     case 'WEB':
       icon = 'globe';
