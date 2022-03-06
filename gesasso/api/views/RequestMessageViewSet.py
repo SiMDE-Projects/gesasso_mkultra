@@ -1,5 +1,6 @@
 import logging
 
+from django.db.transaction import atomic
 from rest_framework import viewsets, permissions
 
 from gesasso.api.models import RequestMessage
@@ -17,3 +18,12 @@ class RequestMessageViewSet(TrackerMixin, viewsets.ModelViewSet):
     queryset = RequestMessage.objects.all()
     serializer_class = RequestMessageSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        """
+        Override the default perform_create method to add the user
+        to the request.
+        """
+        with atomic():
+            serializer.save(user=self.request.user)
+        super(RequestMessageViewSet, self).perform_create(serializer)
