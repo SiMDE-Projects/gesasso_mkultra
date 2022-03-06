@@ -4,8 +4,14 @@ import {
 } from 'semantic-ui-react';
 import AssoSelector from '@gesasso/components/AssoSelector';
 import csrfToken from '@gesasso/utils/csrfToken';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import fr from 'date-fns/locale/fr';
+
+registerLocale('es', fr);
 
 const RequestForm = () => {
+  const [dueDate, setDueDate] = useState(null);
   const [asso, setAsso] = useState(null);
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
@@ -55,6 +61,10 @@ const RequestForm = () => {
         <Form.Field>
           <label>Description</label>
           <TextArea placeholder="Tell us more" onChange={(e) => setMessage(e.target.value)} />
+        </Form.Field>
+        <Form.Field>
+          <label>Due date</label>
+          <DatePicker selected={dueDate} onChange={(date: Date) => setDueDate(date)} />
         </Form.Field>
         <Button type="submit" onClick={(e) => handleSubmit(e)}>Submit</Button>
       </Form>
