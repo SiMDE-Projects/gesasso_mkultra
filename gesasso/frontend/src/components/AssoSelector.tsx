@@ -27,7 +27,7 @@ const AssoSelector = ({
         if (response.status === 200) {
           response.json().then((validResponse) => {
             const assosTmp: React.SetStateAction<any[]> = [];
-            validResponse.results.forEach((x: { id: string; shortname: string; }) => {
+            validResponse.forEach((x: { id: string; shortname: string; }) => {
               assosTmp.push({
                 key: x.id,
                 value: x,

@@ -24,11 +24,11 @@ const RequestList = () => {
           return response.json();
         }
         return new Promise((resolve) => {
-          resolve({ results: [] });
+          resolve([]);
         });
       })
       .then((data) => {
-        setRequests(data.results);
+        setRequests(data);
         setLoading(false);
       });
   }, []);
