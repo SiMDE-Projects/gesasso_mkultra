@@ -1,0 +1,11 @@
+on: push
+name: packtracker.io
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run bundle-stats
+        uses: vio/bundle-stats-action@v1
+        with:
+          webpack-stats-path: 'gesasso/frontend/webpack-stats.json'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
