@@ -30,6 +30,7 @@ const RequestForm = () => {
         status: 'OPEN',
         origin: 'WEB',
         actions: [],
+        due_date: dueDate,
         message,
       }),
     }).then((response) => {
