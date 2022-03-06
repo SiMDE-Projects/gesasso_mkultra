@@ -1,32 +1,23 @@
 from rest_framework import serializers
 
 from gesasso.api.models import Request
-from gesasso.api.serializers import (
-    AssoSerializer,
-    RequestMessageSerializer,
-    ActionSerializer,
-)
+from gesasso.proxy_pda.serializers import AssoSerializer
+from . import ActionSerializer, RequestMessageSerializer
 from .UserSerializer import UserSerializer
 
 
 class RequestSerializer(serializers.HyperlinkedModelSerializer):
     asso = AssoSerializer(read_only=True)
     user = UserSerializer(read_only=True)
-    actions = ActionSerializer(many=True)
-    messages = RequestMessageSerializer(many=True)
-    status = serializers.SerializerMethodField()
-    origin = serializers.SerializerMethodField()
+    actions = ActionSerializer(many=True, read_only=True)
+    messages = RequestMessageSerializer(many=True, read_only=True)
+    status = serializers.ChoiceField(choices=Request.Status)
+    origin = serializers.ChoiceField(choices=Request.Origin)
 
     def get_assignees(self, obj):
         """self referral field"""
         serializer = UserSerializer(obj.assignees.all(), many=True)
         return serializer.data
-
-    def get_status(self, obj):
-        return obj.get_status_display()
-
-    def get_origin(self, obj):
-        return obj.get_origin_display()
 
     class Meta:
         model = Request
@@ -44,4 +35,3 @@ class RequestSerializer(serializers.HyperlinkedModelSerializer):
             "assignees",
             "created",
         ]
-        read_only_fields = ["messages"]

@@ -4,6 +4,7 @@ import {
   Header, Icon, Label, Segment,
 } from 'semantic-ui-react';
 import 'moment/locale/fr';
+import RequestMessageForm from '@gesasso/components/RequestMessageForm';
 
 const Moment = lazy(() => import('react-moment'));
 
@@ -18,20 +19,22 @@ const RequestView = () => {
   const [request, setRequest] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetch(`/api/requests/${id}/`)
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-        return new Promise((resolve) => {
-          resolve({ results: [] });
-        });
-      })
-      .then((data) => {
-        setRequest(data);
-        setLoading(false);
+  const fetchRequest = () => fetch(`/api/requests/${id}/`)
+    .then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      }
+      return new Promise((resolve) => {
+        resolve({ results: [] });
       });
+    })
+    .then((data) => {
+      setRequest(data);
+      setLoading(false);
+    });
+
+  useEffect(() => {
+    fetchRequest();
   }, []);
 
   if (loading) {
@@ -60,6 +63,12 @@ const RequestView = () => {
         </Header.Subheader>
       </Header>
       <RequestMessagesFeed messages={request.messages} />
+      <RequestMessageForm
+        request={request}
+        onSubmit={() => {
+          fetchRequest();
+        }}
+      />
     </Segment>
   );
 };
