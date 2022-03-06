@@ -25,7 +25,7 @@ const RequestView = () => {
         return response.json();
       }
       return new Promise((resolve) => {
-        resolve({ results: [] });
+        resolve([]);
       });
     })
     .then((data) => {
