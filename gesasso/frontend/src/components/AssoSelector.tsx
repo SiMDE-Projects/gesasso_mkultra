@@ -30,7 +30,7 @@ const AssoSelector = ({
             validResponse.results.forEach((x: { id: string; shortname: string; }) => {
               assosTmp.push({
                 key: x.id,
-                value: x.id,
+                value: x,
                 text: x.shortname,
               });
             });
@@ -43,9 +43,9 @@ const AssoSelector = ({
       });
   }, []);
 
-  const handleChange = (e: object, { v }: any) => {
-    setAsso(v);
-    onChange(v);
+  const handleChange = (e, v) => {
+    setAsso(v.value);
+    onChange(v.value);
   };
 
   return (

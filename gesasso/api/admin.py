@@ -1,9 +1,11 @@
 from django.contrib import admin
-from django.contrib.admin.models import LogEntry
+from django.contrib.admin.models import LogEntry, DELETION
+from django.urls import reverse
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
 from gesasso.api.models import Action, ActionType, Request
+from gesasso.api.models import RequestMessage
 
 
 @admin.register(LogEntry)
@@ -21,16 +23,17 @@ class LogAdmin(admin.ModelAdmin):
         return request.user.is_superuser
 
     def object_link(self, obj):
-        link = escape(obj.object_repr)
-        # TODO: fix url reversing
-        # if obj.action_flag == DELETION:
-        #     link = escape(obj.object_repr)
-        # else:
-        #     ct = obj.content_type
-        #     link = '<a href="%s">%s</a>' % (
-        #         reverse('admin:%s_%s_change' % (ct.app_label, ct.model), args=[obj.object_id]),
-        #         escape(obj.object_repr),
-        #     )
+        if obj.action_flag == DELETION:
+            link = escape(obj.object_repr)
+        else:
+            ct = obj.content_type
+            link = '<a href="%s">%s</a>' % (
+                reverse(
+                    "admin:%s_%s_change" % (ct.app_label, ct.model),
+                    args=[obj.object_id],
+                ),
+                escape(obj.object_repr),
+            )
         return mark_safe(link)
 
     object_link.admin_order_field = "object_repr"
@@ -53,6 +56,11 @@ class LogAdmin(admin.ModelAdmin):
 
 @admin.register(ActionType)
 class ActionTypeAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(RequestMessage)
+class RequestMessageAdmin(admin.ModelAdmin):
     pass
 
 

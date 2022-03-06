@@ -6,8 +6,8 @@ from gesasso.api.serializers.UserSerializer import UserSerializer
 
 class RequestMessageSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(read_only=True)
-    type = serializers.SerializerMethodField()
-    origin = serializers.SerializerMethodField()
+    type = serializers.ChoiceField(choices=RequestMessage.Types)
+    origin = serializers.ChoiceField(choices=RequestMessage.Origin)
 
     def get_type(self, obj):
         return obj.get_type_display()

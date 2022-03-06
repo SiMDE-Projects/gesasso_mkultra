@@ -4,6 +4,7 @@ import React, { lazy, Suspense, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Fallback from '@gesasso/components/Fallback';
 import SessionContext from '@gesasso/utils/SessionContext';
+import RequestForm from '@gesasso/pages/RequestForm';
 
 const RequestView = lazy(() => import('@gesasso/pages/RequestView'));
 const HomePage = lazy(() => import('@gesasso/pages/HomePage'));
@@ -31,7 +32,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route path="/" element={<HomePage />} />
-                <Route path="/requests/new" element="Not Yet Implemented, waiting issue #17" />
+                <Route path="/requests/new" element={<RequestForm />} />
                 <Route path="/requests/:id" element={<RequestView />} />
                 <Route path="*" element={<NotFound />} />
               </Route>

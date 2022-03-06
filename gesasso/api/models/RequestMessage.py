@@ -6,17 +6,17 @@ from gesasso.api.utils import TimeStampable
 
 
 class RequestMessage(TimeStampable):
-    class Types(models.IntegerChoices):
-        PUBLIC = 1, "PUBLIC"
-        INTERNAL = 2, "INTERNAL"
-        SUCCESS = 3, "SUCCESS"
-        ERROR = 4, "ERROR"
-        INFO = 5, "INFO"
+    class Types(models.TextChoices):
+        PUBLIC = "PUBLIC", "PUBLIC"
+        INTERNAL = "INTERNAL", "INTERNAL"
+        SUCCESS = "SUCCESS", "SUCCESS"
+        ERROR = "ERROR", "ERROR"
+        INFO = "INFO", "INFO"
 
-    class Origin(models.IntegerChoices):
-        WEB = 1, "WEB"
-        MAIL = 2, "MAIL"
-        DIRECT = 3, "DIRECT"
+    class Origin(models.TextChoices):
+        WEB = "WEB", "WEB"
+        MAIL = "MAIL", "MAIL"
+        DIRECT = "DIRECT", "DIRECT"
 
     id = models.AutoField(primary_key=True)
     request = models.ForeignKey(
@@ -24,7 +24,7 @@ class RequestMessage(TimeStampable):
     )
     message = models.TextField()
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    type = models.PositiveSmallIntegerField(choices=Types.choices, default=Types.PUBLIC)
-    origin = models.PositiveSmallIntegerField(
-        choices=Origin.choices, default=Origin.DIRECT
+    type = models.CharField(choices=Types.choices, default=Types.PUBLIC, max_length=25)
+    origin = models.CharField(
+        choices=Origin.choices, default=Origin.DIRECT, max_length=25
     )
