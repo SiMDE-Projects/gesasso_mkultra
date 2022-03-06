@@ -24,6 +24,7 @@ module.exports = {
   ],
   rules: {
     'react/jsx-no-constructed-context-values': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
     'react/function-component-definition': [
       'error',
       {
