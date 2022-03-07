@@ -5,4 +5,6 @@ docker-compose.override.yml
 .pytest_cache
 /gesasso/frontend/dist
 /node_modules/
-/gesasso/frontend/webpack-stats.json
+webpack-stats.json
+__pycache__
+.DS_Store
