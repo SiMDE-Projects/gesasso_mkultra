@@ -1,4 +1,4 @@
-name: Build
+name: Relative CI workflow
 
 on:
   push:
@@ -14,12 +14,13 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16.x'
+          cache: 'yarn'
 
-      # Install dependencies
-      - run: npm ci
+      - name: Install dependencies 📦
+        run: yarn install --frozen-lockfile
 
-      # Build and output webpack stats to webpack-stats.json
-      - run: npm run build --json webpack-stats.json
+      - name: Build !📦
+        run: yarn build -json ./webpack-stats.json
 
       # Send webpack stats and build information to RelativeCI
       - name: Send webpack stats to RelativeCI
