@@ -31,7 +31,7 @@ module.exports = {
         exclude: /(node_modules|venv)/,
         use: {
           loader: 'babel-loader',
-          options: { presets: ['@babel/env', '@babel/preset-react'] },
+          options: { presets: [['@babel/env', { exclude: ['proposal-dynamic-import'] }], ['@babel/preset-react', { exclude: ['proposal-dynamic-import'] }]] },
         },
       },
       {
