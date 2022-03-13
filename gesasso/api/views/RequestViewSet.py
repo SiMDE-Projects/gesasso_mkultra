@@ -17,12 +17,19 @@ class RequestViewSet(TrackerMixin, viewsets.ModelViewSet):
     """
 
     queryset = (
-        Request.objects.all()
-        .order_by("-created")
-        .prefetch_related("user", "messages", "asso")
+        Request.objects.all().order_by("-created").prefetch_related("user", "asso")
     )
     serializer_class = RequestSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        """
+        Filter the queryset by the user.
+        """
+        queryset = super(RequestViewSet, self).get_queryset()
+        if self.request.user.is_superuser:
+            return queryset
+        return queryset.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         """
