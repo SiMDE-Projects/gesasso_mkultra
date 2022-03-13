@@ -1,5 +1,6 @@
 import logging
 
+from django.db.models import Q
 from django.db.transaction import atomic
 from rest_framework import viewsets, permissions
 
@@ -15,9 +16,25 @@ class RequestMessageViewSet(TrackerMixin, viewsets.ModelViewSet):
     API endpoint that allows requests messages to be viewed or edited.
     """
 
-    queryset = RequestMessage.objects.all()
+    queryset = RequestMessage.objects.all().order_by("-created")
     serializer_class = RequestMessageSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        """
+        Override the default get_queryset method to filter by user.
+        """
+        request = self.request.query_params.get("request", None)
+        if request:
+            self.queryset = self.queryset.filter(request__id=request)
+
+        if self.request.user.is_superuser:
+            return self.queryset
+
+        return self.queryset.filter(
+            (Q(user=self.request.user) & Q(type=RequestMessage.Types.INTERNAL))
+            | ~Q(type=RequestMessage.Types.INTERNAL)
+        )
 
     def perform_create(self, serializer):
         """
