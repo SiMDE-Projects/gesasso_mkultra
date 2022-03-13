@@ -17,7 +17,9 @@ const LoaderOverlay = lazy(() => import('@gesasso/components/LoaderOverlay'));
 const RequestView = () => {
   const { id } = useParams();
   const [request, setRequest] = useState(null);
+  const [messages, setMessages] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [messagesLoading, setMessagesLoading] = useState(true);
 
   const fetchRequest = () => fetch(`/api/requests/${id}/`)
     .then((response) => {
@@ -33,8 +35,23 @@ const RequestView = () => {
       setLoading(false);
     });
 
+  const fetchMessages = () => fetch(`/api/request_messages/?request=${id}`)
+    .then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      }
+      return new Promise((resolve) => {
+        resolve([]);
+      });
+    })
+    .then((data) => {
+      setMessages(data);
+      setMessagesLoading(false);
+    });
+
   useEffect(() => {
     fetchRequest();
+    fetchMessages();
   }, []);
 
   if (loading) {
@@ -62,11 +79,15 @@ const RequestView = () => {
           {request.user.full_name}
         </Header.Subheader>
       </Header>
-      <RequestMessagesFeed messages={request.messages} />
+      {messagesLoading ? (
+        <LoaderOverlay content="Loading messages ..." />
+      ) : (
+        <RequestMessagesFeed messages={messages} />
+      )}
       <RequestMessageForm
         request={request}
         onSubmit={() => {
-          fetchRequest();
+          fetchMessages();
         }}
       />
     </Segment>
