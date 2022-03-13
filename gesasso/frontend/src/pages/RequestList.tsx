@@ -46,7 +46,6 @@ const RequestList = () => {
           <Table.HeaderCell>Owner</Table.HeaderCell>
           <Table.HeaderCell>Asso</Table.HeaderCell>
           <Table.HeaderCell>Origin</Table.HeaderCell>
-          <Table.HeaderCell>Messages</Table.HeaderCell>
           <Table.HeaderCell>Due date</Table.HeaderCell>
           <Table.HeaderCell>Actions</Table.HeaderCell>
         </Table.Row>
@@ -68,9 +67,6 @@ const RequestList = () => {
             </Table.Cell>
             <Table.Cell>
               <OriginIcon origin={x.origin} />
-            </Table.Cell>
-            <Table.Cell>
-              {x.messages.length}
             </Table.Cell>
             <Table.Cell>
               {
