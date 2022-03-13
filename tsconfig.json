@@ -2,13 +2,13 @@
   "compilerOptions": {
     //    "outDir": "./gesasso/frontend/dist",
     //    "noImplicitAny": true,
-    //    "module": "es6",
-    //    "target": "es5",
+    "module": "esnext",
+    "target": "esnext",
     "jsx": "react",
     //    "allowJs": true,
     "moduleResolution": "node",
     //    "sourceMap": true,
-    "allowSyntheticDefaultImports": true,
+    //    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "baseUrl": "gesasso/frontend/src",
     "paths": {
