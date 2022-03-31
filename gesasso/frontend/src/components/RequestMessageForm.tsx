@@ -11,7 +11,7 @@ const RequestMessagesForm = ({ request, onSubmit }) => {
   const handleSubmit = (e) => {
     setBusy(true);
     e.preventDefault();
-    fetch('/api/request_messages/', {
+    fetch(`${process.env.BASE_URL}/api/request_messages/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -71,13 +71,6 @@ RequestMessagesForm.propTypes = {
   request: PropTypes.shape({
     id: PropTypes.number.isRequired,
     url: PropTypes.string.isRequired,
-    messages: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        message: PropTypes.string.isRequired,
-        isPrivate: PropTypes.bool.isRequired,
-      }).isRequired,
-    ).isRequired,
   }).isRequired,
   onSubmit: PropTypes.func,
 };

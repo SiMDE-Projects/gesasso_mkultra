@@ -1,5 +1,3 @@
-// noinspection JSCheckFunctionSignatures
-
 import React, { lazy, Suspense, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Fallback from '@gesasso/components/Fallback';
@@ -28,7 +26,7 @@ const App = () => {
       </style>
       <Suspense fallback={<Fallback />}>
         <SessionContext.Provider value={{ user, updateUser }}>
-          <BrowserRouter>
+          <BrowserRouter basename={process.env.BASE_URL}>
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route path="/" element={<HomePage />} />

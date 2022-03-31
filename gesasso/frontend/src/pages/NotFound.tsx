@@ -1,13 +1,14 @@
 import React from 'react';
+import { Header, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 const NotFound = () => (
-  <div>
-    <h1>Page not found</h1>
-    <p>
-      <Link to="/">Go to the home page</Link>
-    </p>
-  </div>
+  <Segment>
+    <Header as="h1">Page not found</Header>
+
+    <Link to={`${process.env.BASE_URL}/`}>Go to the home page</Link>
+
+  </Segment>
 );
 
 export default NotFound;
