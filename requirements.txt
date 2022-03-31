@@ -78,6 +78,8 @@ drf-psq==1.1.0
     # via -r requirements.in
 drf-spectacular==0.21.2
     # via oauth-pda-app
+environ==1.0
+    # via -r requirements.in
 factory-boy==3.2.1
     # via -r requirements.in
 faker==13.0.0
