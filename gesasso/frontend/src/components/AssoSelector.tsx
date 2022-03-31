@@ -19,7 +19,7 @@ const AssoSelector = ({
   const [loading, setLoading] = useState(true);
   const [assosList, setAssosList] = useState([]);
   const [asso, setAsso] = useState(value);
-  const assosListUrl = '/proxy_pda/get_assos_list';
+  const assosListUrl = `${process.env.BASE_URL}/proxy_pda/get_assos_list`;
 
   useEffect(() => {
     fetch(assosListUrl)

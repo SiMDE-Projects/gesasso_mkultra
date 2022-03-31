@@ -12,7 +12,7 @@ module.exports = {
   output: {
     path: path.resolve('./gesasso/frontend/dist'),
     filename: '[name]-[chunkhash].js',
-    publicPath: '/static/',
+    publicPath: '/gesasso/static/',
   },
   plugins: [
     new CleanWebpackPlugin(),
