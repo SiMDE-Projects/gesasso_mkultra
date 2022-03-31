@@ -13,6 +13,7 @@ django-webpack-loader>=0.7.0
 djangorestframework>=3.12.4
 python-dotenv
 drf-psq
+environ
 factory_boy
 flake8>=4.0
 getconf>=1.10.0
