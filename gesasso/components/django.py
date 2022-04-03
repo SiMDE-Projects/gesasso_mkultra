@@ -1,16 +1,24 @@
 import os
 from pathlib import Path
 
-import getconf
+import environ
 
-config = getconf.ConfigGetter("gesasso", ["./local_settings.ini"])
+env = environ.Env(
+    GESASSO_DEBUG=(bool, False),
+    GESASSO_DJANGO_ALLOWED_HOSTS=(list, ["*"]),
+    STATIC_ROOT=(str, "/static/"),
+)
+
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = config.getstr("django.secret")
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+
+SECRET_KEY = env("GESASSO_DJANGO_SECRET")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config.getbool("django.debug", False)
+DEBUG = env.bool("GESASSO_DEBUG")
 
-ALLOWED_HOSTS = config.getlist("django.allowed_hosts", ["*"])
+ALLOWED_HOSTS = env.list("GESASSO_DJANGO_ALLOWED_HOSTS")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
