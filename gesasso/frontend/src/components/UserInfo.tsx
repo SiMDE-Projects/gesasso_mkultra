@@ -7,8 +7,8 @@ const UserInfo = () => {
   const [loading, setLoading] = useState(true);
   const [authLink, setAuthLink] = useState('');
   const context = useContext(SessionContext);
-  const authlinkUrl = `${process.env.BASE_URL}/oauth/authlink`;
-  const userInfosUrl = `${process.env.BASE_URL}/proxy_pda/get_user_infos`;
+  const authlinkUrl = `${process.env.GESASSO_BASE_URL}/oauth/authlink`;
+  const userInfosUrl = `${process.env.GESASSO_BASE_URL}/proxy_pda/get_user_infos`;
 
   useEffect(() => {
     fetch(userInfosUrl)
@@ -43,7 +43,7 @@ const UserInfo = () => {
         </Menu.Item>
         <Menu.Item>
           <Button onClick={() => {
-            window.location.href = `${process.env.BASE_URL}/oauth/logout`;
+            window.location.href = `${process.env.GESASSO_BASE_URL}/oauth/logout`;
           }}
           >
             Déconnexion

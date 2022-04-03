@@ -6,7 +6,7 @@ const NotFound = () => (
   <Segment>
     <Header as="h1">Page not found</Header>
 
-    <Link to={`${process.env.BASE_URL}/`}>Go to the home page</Link>
+    <Link to={`${process.env.GESASSO_BASE_URL}/`}>Go to the home page</Link>
 
   </Segment>
 );
