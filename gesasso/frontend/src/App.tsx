@@ -26,7 +26,7 @@ const App = () => {
       </style>
       <Suspense fallback={<Fallback />}>
         <SessionContext.Provider value={{ user, updateUser }}>
-          <BrowserRouter basename={process.env.BASE_URL}>
+          <BrowserRouter basename={process.env.GESASSO_BASE_URL}>
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route path="/" element={<HomePage />} />
