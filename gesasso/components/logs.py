@@ -1,9 +1,19 @@
 import logging.config
 import os
+from pathlib import Path
 
+import environ
 from django.utils.log import DEFAULT_LOGGING
 
-LOGLEVEL = os.environ.get("LOGLEVEL", "ERROR").upper()
+env = environ.Env(
+    GESASSO_LOGLEVEL=(str, "ERROR"),
+)
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+
+LOGLEVEL = env("GESASSO_LOGLEVEL").upper()
 
 logging.config.dictConfig(
     {

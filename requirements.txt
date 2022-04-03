@@ -53,6 +53,8 @@ django-cors-headers==3.11.0
     # via -r requirements.in
 django-debug-toolbar==3.2.4
     # via -r requirements.in
+django-environ==0.8.1
+    # via -r requirements.in
 django-filter==21.1
     # via -r requirements.in
 django-localflavor==3.1
