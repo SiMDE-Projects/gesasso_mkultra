@@ -6,7 +6,6 @@ import environ
 env = environ.Env(
     GESASSO_DEBUG=(bool, False),
     GESASSO_DJANGO_ALLOWED_HOSTS=(list, ["*"]),
-    STATIC_ROOT=(str, "/static/"),
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent

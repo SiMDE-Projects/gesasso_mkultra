@@ -3,9 +3,9 @@ import os
 import environ
 
 env = environ.Env(
-    BASE_URL=(str, "/"),
-    STATIC_URL=(str, "/static/"),
-    STATIC_ROOT=(str, "/static/"),
+    GESASSO_BASE_URL=(str, "/"),
+    GESASSO_STATIC_URL=(str, "/static/"),
+    GESASSO_STATIC_ROOT=(str, "/static/"),
 )
 
 # Set the project base directory
