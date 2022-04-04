@@ -15,13 +15,13 @@ const NavMenu = () => {
     <Menu>
       <Menu.Item
         name="Home"
-        url={`${process.env.GESASSO_BASE_URL}/`}
+        url="/"
         active={activeItem === 'Home'}
         onClick={handleItemClick}
       />
       <Menu.Item
         name="New Request"
-        url={`${process.env.GESASSO_BASE_URL}/requests/new`}
+        url="/requests/new"
         active={activeItem === 'New Request'}
         onClick={handleItemClick}
       />
