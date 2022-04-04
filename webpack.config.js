@@ -3,6 +3,7 @@ const BundleTracker = require('webpack-bundle-tracker');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: {
@@ -12,7 +13,7 @@ module.exports = {
   output: {
     path: path.resolve('./gesasso/frontend/dist'),
     filename: '[name]-[chunkhash].js',
-    publicPath: '/static/',
+    publicPath: `${process.env.GESASSO_BASE_URL || '/'}static/`,
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -23,6 +24,7 @@ module.exports = {
       path: __dirname,
       filename: './gesasso/frontend/webpack-stats.json',
     }),
+    new Dotenv({ defaults: true }),
   ],
   module: {
     rules: [

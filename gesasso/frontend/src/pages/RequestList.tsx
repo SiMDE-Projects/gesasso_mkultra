@@ -1,24 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Button, Icon, Label, Table,
-} from 'semantic-ui-react';
-import { useNavigate } from 'react-router-dom';
+import React, { Suspense, useEffect, useState } from 'react';
+import { Table } from 'semantic-ui-react';
 import 'moment/locale/fr';
 
-const Moment = React.lazy(() => import('react-moment'));
-
-const StatusLabel = React.lazy(() => import('@gesasso/components/StatusLabel'));
-const OriginIcon = React.lazy(() => import('@gesasso/components/OriginIcon'));
-
+const RequestListRow = React.lazy(() => import('@gesasso/pages/RequestListRow'));
 const LoaderOverlay = React.lazy(() => import('@gesasso/components/LoaderOverlay'));
 
 const RequestList = () => {
   const [loading, setLoading] = useState(true);
   const [requests, setRequests] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/api/requests/')
+    fetch(`${process.env.GESASSO_BASE_URL}/api/requests/`)
       .then((response) => {
         if (response.status === 200) {
           return response.json();
@@ -51,54 +43,11 @@ const RequestList = () => {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {requests.map((x) => (
-          <Table.Row key={x.id}>
-            <Table.Cell>
-              <StatusLabel status={x.status} />
-            </Table.Cell>
-            <Table.Cell>
-              {x.title}
-            </Table.Cell>
-            <Table.Cell>
-              {x.user.full_name}
-            </Table.Cell>
-            <Table.Cell>
-              {x.asso.shortname}
-            </Table.Cell>
-            <Table.Cell>
-              <OriginIcon origin={x.origin} />
-            </Table.Cell>
-            <Table.Cell>
-              {
-                                x.due_date
-                                  ? (
-                                    <>
-                                      <Moment locale="fr" format="LLLL">{x.due_date}</Moment>
-                                      <Label>
-                                        <Moment to={x.due_date} />
-                                      </Label>
-                                    </>
-                                  )
-                                  : (
-                                    <Label>
-                                      No due date
-                                    </Label>
-                                  )
-                            }
-            </Table.Cell>
-            <Table.Cell>
-              <Button
-                icon
-                color="blue"
-                onClick={() => {
-                  navigate(`/requests/${x.id}`);
-                }}
-              >
-                <Icon name="eye" />
-              </Button>
-            </Table.Cell>
-          </Table.Row>
-        ))}
+        <Suspense fallback={<Table.Row><LoaderOverlay /></Table.Row>}>
+          {requests.map((x) => (
+            <RequestListRow request={x} key={x.id} />
+          ))}
+        </Suspense>
       </Table.Body>
     </Table>
   );
