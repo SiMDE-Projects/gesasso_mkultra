@@ -57,7 +57,7 @@ const RequestForm = () => {
         </Form.Field>
         <Form.Field>
           <label>Title</label>
-          <Input placeholder="First Name" onChange={(e) => setTitle(e.target.value)} />
+          <Input placeholder="Request title" onChange={(e) => setTitle(e.target.value)} />
         </Form.Field>
         <Form.Field>
           <label>Description</label>
