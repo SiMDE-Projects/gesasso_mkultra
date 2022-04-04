@@ -18,7 +18,7 @@ const RequestForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('/api/requests/', {
+    fetch(`${process.env.GESASSO_BASE_URL}/api/requests/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const RequestForm = () => {
     }).then((response) => {
       if (response.status === 201) {
         response.json().then((validResponse) => {
-          window.location.href = `/requests/${validResponse.id}/`;
+          window.location.href = `${process.env.GESASSO_BASE_URL}/requests/${validResponse.id}/`;
         });
       }
     });
@@ -57,7 +57,7 @@ const RequestForm = () => {
         </Form.Field>
         <Form.Field>
           <label>Title</label>
-          <Input placeholder="First Name" onChange={(e) => setTitle(e.target.value)} />
+          <Input placeholder="Request title" onChange={(e) => setTitle(e.target.value)} />
         </Form.Field>
         <Form.Field>
           <label>Description</label>

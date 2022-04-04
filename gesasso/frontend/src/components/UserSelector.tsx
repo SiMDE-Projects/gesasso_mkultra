@@ -19,7 +19,7 @@ const UserSelector = ({
   const [loading, setLoading] = useState(true);
   const [userList, setUserList] = useState([]);
   const [user, setUser] = useState(value);
-  const assosListUrl = '/api/users/';
+  const assosListUrl = `${process.env.GESASSO_BASE_URL}/api/users/`;
 
   useEffect(() => {
     fetch(assosListUrl)
