@@ -38,7 +38,7 @@ class RequestCreatorView(viewsets.ViewSet):
             user = User.objects.get(email=from_)
         except User.DoesNotExist:
             pass
-        custom_user = None if user is None else decoded["from"]
+        custom_user = decoded["from"] if user is None else None
         request_id_match = re.search(r"\[GAR_(\d)+\]", subject)
         with atomic():
             if request_id_match:
