@@ -19,7 +19,10 @@ class Request(TimeStampable):
             "WAITING_FOR_TIERS_SERVICE",
             "WAITING_FOR_TIERS_SERVICE",
         )
-        WAITING_FOR_CUSTOMER = "WAITING_FOR_CUSTOMER", "WAITING_FOR_CUSTOMER"
+        WAITING_FOR_CUSTOMER = (
+            "WAITING_FOR_CUSTOMER",
+            "WAITING_FOR_CUSTOMER",
+        )
 
         def to_representation(self, value):
             return self.choices[value - 1][1]
