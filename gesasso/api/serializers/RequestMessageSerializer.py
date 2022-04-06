@@ -22,6 +22,7 @@ class RequestMessageSerializer(serializers.HyperlinkedModelSerializer):
             "id",
             "request",
             "user",
+            "custom_author_name",
             "message",
             "type",
             "origin",
