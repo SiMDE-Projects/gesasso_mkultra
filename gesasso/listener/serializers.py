@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from listener.models import MailRequest
+from gesasso.listener.models import MailRequest
 
 
 class UserInfoSerializer(serializers.Serializer):
@@ -17,4 +17,4 @@ class MailRequestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MailRequest
-        fields = ["from", "to", "subject", "content"]
+        fields = ["mail_from", "mail_to", "mail_subject", "mail_body"]
