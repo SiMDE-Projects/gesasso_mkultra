@@ -5,7 +5,7 @@ from django.db.transaction import atomic
 from django.views.decorators.csrf import csrf_exempt
 from oauth_pda_app.models import User
 from rest_framework import viewsets, permissions
-from rest_framework.exceptions import MethodNotAllowed, ValidationError
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 from gesasso.api.middlewares import CsrfExemptSessionAuthentication
@@ -69,18 +69,3 @@ class RequestCreatorView(viewsets.ViewSet):
             else:
                 raise ValidationError("Unknown Gesasso agent")
         return Response("OK")
-
-    def list(self, request):
-        raise MethodNotAllowed("GET")
-
-    def retrieve(self, request, pk=None):
-        raise MethodNotAllowed("GET")
-
-    def update(self, request, pk=None):
-        raise MethodNotAllowed("PUT")
-
-    def partial_update(self, request, pk=None):
-        raise MethodNotAllowed("PATCH")
-
-    def destroy(self, request, pk=None):
-        raise MethodNotAllowed("DELETE")
