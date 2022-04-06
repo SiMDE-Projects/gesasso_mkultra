@@ -61,10 +61,10 @@ class RequestCreatorView(viewsets.ViewSet):
             if request.data["agent"] == CryptoKey.Agent.MK_MAIL:
                 MailRequest.objects.create(
                     request=req,
-                    from_=from_,
-                    to=decoded["to"],
-                    subject=subject,
-                    body=body,
+                    mail_from=from_,
+                    mail_to=decoded["to"],
+                    mail_subject=subject,
+                    mail_body=body,
                 )
             else:
                 raise ValidationError("Unknown Gesasso agent")
