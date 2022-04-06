@@ -6,6 +6,7 @@ from django.contrib.admin.models import CHANGE, LogEntry, ADDITION, DELETION
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils import timezone
+from rest_framework import routers
 
 logger = logging.getLogger(__name__)
 
@@ -164,3 +165,18 @@ class TrackerMixin:
 
 def date_to_timezone(date: str):
     return timezone.make_aware(datetime.strptime(date, "%Y-%m-%d %H:%M:%S"))
+
+
+class DefaultRouter(routers.DefaultRouter):
+    """
+    Extends `DefaultRouter` class to add a method for extending url routes from another router.
+    """
+
+    def extend(self, router):
+        """
+        Extend the routes with url routes of the passed in router.
+
+        Args:
+             router: SimpleRouter instance containing route definitions.
+        """
+        self.registry.extend(router.registry)
