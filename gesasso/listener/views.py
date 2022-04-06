@@ -1,6 +1,7 @@
 import re
 
 import jwt
+from django.db.transaction import atomic
 from django.views.decorators.csrf import csrf_exempt
 from oauth_pda_app.models import User
 from rest_framework import viewsets, permissions
@@ -46,46 +47,26 @@ class RequestCreatorView(viewsets.ViewSet):
             user = User.objects.get(email=from_)
         except User.DoesNotExist:
             pass
-
+        custom_user = None if user is None else decoded["from"]
         request_id_match = re.search(r"\[GAR_(\d)+\]", subject)
-        if request_id_match:
-            request = Request.objects.get(pk=request_id_match.group(1))
-            if user is None:
-                RequestMessage.objects.create(
-                    request=request,
-                    message=body,
-                    origin=RequestMessage.Origin.MAIL,
-                    custom_author_name=decoded["from"],
-                )
+        with atomic():
+            if request_id_match:
+                req = Request.objects.get(pk=request_id_match.group(1))
             else:
-                RequestMessage.objects.create(
-                    request=request,
-                    message=body,
-                    origin=RequestMessage.Origin.MAIL,
+                req = Request.objects.create(
+                    title=subject,
+                    origin=Request.Origin.MAIL,
+                    custom_author_name=custom_user,
                     user=user,
                 )
-        else:
-            if user is None:
-                request = Request.objects.create(
-                    title=subject, custom_author_name=decoded["from"]
-                )
-            else:
-                request = Request.objects.create(title=subject, user=user)
-            request.save()
-            if user is None:
-                RequestMessage.objects.create(
-                    request=request,
-                    message=body,
-                    origin=RequestMessage.Origin.MAIL,
-                    custom_author_name=decoded["from"],
-                )
-            else:
-                RequestMessage.objects.create(
-                    request=request,
-                    message=body,
-                    origin=RequestMessage.Origin.MAIL,
-                    user=user,
-                )
+                req.save()
+            RequestMessage.objects.create(
+                request=req,
+                message=body,
+                origin=RequestMessage.Origin.MAIL,
+                custom_author_name=custom_user,
+                user=user,
+            )
 
         return Response("OK")
 
