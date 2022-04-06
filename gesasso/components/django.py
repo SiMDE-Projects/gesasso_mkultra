@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "gesasso.api",
     "gesasso.frontend",
     "gesasso.proxy_pda",
+    "gesasso.listener",
 ]
 
 MIDDLEWARE = [
