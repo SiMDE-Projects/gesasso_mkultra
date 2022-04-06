@@ -4,7 +4,7 @@ import jwt
 from django.db.transaction import atomic
 from django.views.decorators.csrf import csrf_exempt
 from oauth_pda_app.models import User
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
@@ -68,4 +68,4 @@ class RequestCreatorView(viewsets.ViewSet):
                 )
             else:
                 raise ValidationError("Unknown Gesasso agent")
-        return Response("OK")
+        return Response("OK", status=status.HTTP_201_CREATED)
