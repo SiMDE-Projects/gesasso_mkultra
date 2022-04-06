@@ -1,20 +1,12 @@
-from django.urls import path
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from .views import TriageRequestView
+from .views import MailRequestView, RequestCreatorView
 
 router = DefaultRouter()
-router.register(r"listener", TriageRequestView, basename="listener")
+router.register(r"mail", MailRequestView)
+router.register(r"create", RequestCreatorView, basename="listener-create")
 
 urlpatterns = [
-    # path(
-    #     "requesttriage",
-    #     CreateTriageRequest.as_view(),
-    #     name="create-triage-request",
-    # ),
-    path(
-        "get",
-        TriageRequestView,
-        name="create-triage-request",
-    ),
+    path("", include(router.urls)),
 ]

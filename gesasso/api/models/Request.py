@@ -41,9 +41,10 @@ class Request(TimeStampable):
     id = models.AutoField(primary_key=True)
     title = models.CharField(blank=False, null=False, max_length=150)
     due_date = models.DateTimeField(blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     assignees = models.ManyToManyField(User, blank=True, related_name="assignees")
-    asso = models.ForeignKey(Asso, on_delete=models.CASCADE)
+    custom_author_name = models.CharField(max_length=254, blank=True, null=True)
+    asso = models.ForeignKey(Asso, on_delete=models.CASCADE, null=True)
     status = models.CharField(
         choices=Status.choices, default=Status.OPEN, max_length=30
     )
