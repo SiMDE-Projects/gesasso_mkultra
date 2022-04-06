@@ -16,6 +16,8 @@ black==22.1.0
     # via -r requirements.in
 certifi==2021.10.8
     # via requests
+cffi==1.15.0
+    # via cryptography
 cfgv==3.3.1
     # via pre-commit
 charset-normalizer==2.0.11
@@ -32,6 +34,8 @@ coverage[toml]==6.3.1
     #   pytest-cov
 coveralls==3.3.1
     # via -r requirements.in
+cryptography==36.0.2
+    # via pyjwt
 distlib==0.3.4
     # via virtualenv
 dj-database-url==0.5.0
@@ -136,8 +140,12 @@ py==1.11.0
     # via pytest
 pycodestyle==2.8.0
     # via flake8
+pycparser==2.21
+    # via cffi
 pyflakes==2.4.0
     # via flake8
+pyjwt[crypto]==2.3.0
+    # via -r requirements.in
 pyparsing==3.0.7
     # via packaging
 pyrsistent==0.18.1
