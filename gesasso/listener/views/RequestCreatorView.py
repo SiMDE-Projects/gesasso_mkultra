@@ -29,8 +29,8 @@ class RequestCreatorView(viewsets.ViewSet):
         )
         subject = decoded["subject"]
 
-        from_ = re.search(r"[\w.+-_]+@[\w-]+\.[\w.-]+", decoded["from"]).group(0)
-        # to = re.search(r"([\w.+-_]+)@[\w-]+\.[\w.-]+", decoded["to"])
+        from_ = re.search(r"<?([\w+-_]+@[\w-]+\.[\w.-]+)>?", decoded["from"]).group(1)
+        to = re.search(r"<?([\w+-_]+@[\w-]+\.[\w.-]+)>?", decoded["to"]).group(1)
         body = decoded["body"]
         user = None
 
@@ -62,7 +62,7 @@ class RequestCreatorView(viewsets.ViewSet):
                 MailRequest.objects.create(
                     request=req,
                     mail_from=from_,
-                    mail_to=decoded["to"],
+                    mail_to=to,
                     mail_subject=subject,
                     mail_body=body,
                 )
