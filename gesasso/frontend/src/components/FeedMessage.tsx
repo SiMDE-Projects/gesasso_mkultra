@@ -72,7 +72,7 @@ const FeedMessage = ({ message }) => {
               <Feed.Summary>
                 <Feed.User>
                   {message.type === 'INTERNAL' && <Icon name="lock" />}
-                  {message.user.full_name}
+                  {message.user ? message.user.full_name : message.custom_author_name}
                 </Feed.User>
                 <Feed.Date>
                   <Moment locale="fr" format="LLLL">{message.created}</Moment>
@@ -81,7 +81,7 @@ const FeedMessage = ({ message }) => {
                   </Label>
                 </Feed.Date>
               </Feed.Summary>
-              <Feed.Extra text>{message.message}</Feed.Extra>
+              <Feed.Extra text>{message.message.split('\n').map((x) => <div>{x}</div>)}</Feed.Extra>
             </Feed.Content>
           </Feed.Event>
         );
@@ -105,6 +105,7 @@ FeedMessage.propTypes = {
       full_name: PropTypes.string.isRequired,
     }).isRequired,
     message: PropTypes.string.isRequired,
+    custom_author_name: PropTypes.string,
     created: PropTypes.string.isRequired,
   }).isRequired,
 };

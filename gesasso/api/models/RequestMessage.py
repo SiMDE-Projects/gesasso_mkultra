@@ -23,7 +23,8 @@ class RequestMessage(TimeStampable):
         Request, on_delete=models.CASCADE, related_name="messages"
     )
     message = models.TextField()
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    custom_author_name = models.CharField(max_length=254, blank=True, null=True)
     type = models.CharField(choices=Types.choices, default=Types.PUBLIC, max_length=25)
     origin = models.CharField(
         choices=Origin.choices, default=Origin.DIRECT, max_length=25

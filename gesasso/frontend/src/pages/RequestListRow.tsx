@@ -23,10 +23,10 @@ const RequestListRow = ({ request }) => {
         {request.title}
       </Table.Cell>
       <Table.Cell>
-        {request.user.full_name}
+        {request.user ? request.user.full_name : request.custom_author_name}
       </Table.Cell>
       <Table.Cell>
-        {request.asso.shortname}
+        {request.asso ? request.asso.shortname : 'N/C'}
       </Table.Cell>
       <Table.Cell>
         <OriginIcon origin={request.origin} />
@@ -76,6 +76,7 @@ RequestListRow.propTypes = {
     user: PropTypes.shape({
       full_name: PropTypes.string.isRequired,
     }).isRequired,
+    custom_author_name: PropTypes.string,
     message: PropTypes.shape({
       type: PropTypes.string.isRequired,
       id: PropTypes.number.isRequired,

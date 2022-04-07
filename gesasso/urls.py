@@ -7,6 +7,7 @@ urlpatterns = [
     path("oauth/", include("oauth_pda_app.urls")),
     path("api/", include("gesasso.api.urls")),
     path("proxy_pda/", include("gesasso.proxy_pda.urls")),
+    path("listener/", include("gesasso.listener.urls")),
     path("admin/", admin.site.urls),
     re_path(r"", include("gesasso.frontend.urls")),
 ]

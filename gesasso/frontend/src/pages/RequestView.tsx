@@ -78,11 +78,11 @@ const RequestView = () => {
           </Header.Subheader>
           <Header.Subheader>
             <Icon name="building" />
-            {request.asso.shortname}
+            {request.asso ? request.asso.shortname : 'N/C'}
           </Header.Subheader>
           <Header.Subheader>
             <Icon name="user" />
-            {request.user.full_name}
+            {request.user ? request.user.full_name : request.custom_author_name}
           </Header.Subheader>
         </Header>
         {messagesLoading ? (
