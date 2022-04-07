@@ -1,15 +1,22 @@
 import logging
 
+import environ
 from django.contrib.auth import login
 from django.db.transaction import atomic
+from django.shortcuts import redirect
 from django.utils.deprecation import MiddlewareMixin
 from oauth_pda_app.backend import OAuthBackend
+from rest_framework.exceptions import NotAuthenticated
 
 from gesasso.listener.models import MailRequest
 from gesasso.proxy_pda.serializers import UserInfoSerializer
 from gesasso.proxy_pda.utils import request_user_assos
 
 logger = logging.getLogger(__name__)
+
+env = environ.Env(
+    GESASSO_BASE_URL=(str, "/"),
+)
 
 
 class OAuthMiddleware(MiddlewareMixin):
@@ -30,7 +37,11 @@ class OAuthMiddleware(MiddlewareMixin):
             user = OAuthBackend().authenticate(request, datas.data)
             login(request, user)
             if "assos" not in request.session.keys():
-                request.session["assos"] = request_user_assos(request)
+                try:
+                    request.session["assos"] = request_user_assos(request)
+                except NotAuthenticated:
+                    response = redirect(env("GESASSO_BASE_URL") + "oauth/logout")
+                    return response
             with atomic():
                 if not (user.is_staff and user.is_superuser):
                     for asso in request.session["assos"]:
