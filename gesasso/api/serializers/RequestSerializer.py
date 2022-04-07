@@ -27,6 +27,7 @@ class RequestSerializer(serializers.HyperlinkedModelSerializer):
             "title",
             "asso",
             "user",
+            "custom_author_name",
             "status",
             "due_date",
             "origin",

@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_extensions",
     "rest_framework",
     "corsheaders",
     "storages",
@@ -35,6 +36,7 @@ INSTALLED_APPS = [
     "gesasso.api",
     "gesasso.frontend",
     "gesasso.proxy_pda",
+    "gesasso.listener",
 ]
 
 MIDDLEWARE = [
