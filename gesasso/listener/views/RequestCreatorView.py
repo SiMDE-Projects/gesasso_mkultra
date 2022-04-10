@@ -1,3 +1,4 @@
+import logging
 import re
 
 import jwt
@@ -12,6 +13,8 @@ from gesasso.api.middlewares import CsrfExemptSessionAuthentication
 from gesasso.api.models import Request, RequestMessage
 from gesasso.listener.models import CryptoKey, MailRequest
 
+logger = logging.getLogger(__name__)
+
 
 class RequestCreatorView(viewsets.ViewSet):
     """
@@ -23,9 +26,15 @@ class RequestCreatorView(viewsets.ViewSet):
 
     @csrf_exempt
     def create(self, request):
-        key = CryptoKey.objects.get(agent=request.data["agent"], removed=None)
+        iss = jwt.decode(request.data["token"], options={"verify_signature": False})[
+            "iss"
+        ]
+        key = CryptoKey.objects.get(agent=iss, removed=None)
         decoded = jwt.decode(
-            request.data["token"], key.public_key, algorithms=["RS256"]
+            jwt=request.data["token"],
+            key=key.public_key,
+            algorithms=["RS256"],
+            audience="MK_ULTRA",
         )
         subject = decoded["subject"]
 
@@ -39,7 +48,8 @@ class RequestCreatorView(viewsets.ViewSet):
         except User.DoesNotExist:
             pass
         custom_user = decoded["from"] if user is None else None
-        request_id_match = re.search(r"\[GAR_(\d)+\]", subject)
+        request_id_match = re.search(r"\[GAR_(\d)+]", subject)
+
         with atomic():
             if request_id_match:
                 req = Request.objects.get(pk=request_id_match.group(1))
@@ -58,7 +68,7 @@ class RequestCreatorView(viewsets.ViewSet):
                 custom_author_name=custom_user,
                 user=user,
             )
-            if request.data["agent"] == CryptoKey.Agent.MK_MAIL:
+            if iss == CryptoKey.Agent.MK_MAIL:
                 MailRequest.objects.create(
                     request=req,
                     mail_from=from_,
