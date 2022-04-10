@@ -78,4 +78,4 @@ class RequestCreatorView(viewsets.ViewSet):
                 )
             else:
                 raise ValidationError("Unknown Gesasso agent")
-        return Response("OK", status=status.HTTP_201_CREATED)
+        return Response({"id": req.id}, status=status.HTTP_201_CREATED)
