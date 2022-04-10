@@ -15,7 +15,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = env("GESASSO_DJANGO_SECRET")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool("GESASSO_DEBUG")
+DEBUG = env.bool("GESASSO_DJANGO_DEBUG")
 
 ALLOWED_HOSTS = env.list("GESASSO_DJANGO_ALLOWED_HOSTS")
 
