@@ -12,6 +12,7 @@ from rest_framework.response import Response
 from gesasso.api.middlewares import CsrfExemptSessionAuthentication
 from gesasso.api.models import Request, RequestMessage
 from gesasso.listener.models import CryptoKey, MailRequest
+from gesasso.proxy_pda.models import Asso
 
 logger = logging.getLogger(__name__)
 
@@ -42,13 +43,18 @@ class RequestCreatorView(viewsets.ViewSet):
         to = re.search(r"<?([\w+-_]+@[\w-]+\.[\w.-]+)>?", decoded["to"]).group(1)
         body = decoded["body"]
         user = None
+        asso = None
 
         try:
             user = User.objects.get(email=from_)
         except User.DoesNotExist:
             pass
+        try:
+            asso = Asso.objects.get(login=from_.split("@")[0])
+        except Asso.DoesNotExist:
+            pass
         custom_user = decoded["from"] if user is None else None
-        request_id_match = re.search(r"\[GAR_(\d)+]", subject)
+        request_id_match = re.search(r"\[GAR_(\d+)]", subject)
 
         with atomic():
             if request_id_match:
@@ -59,6 +65,7 @@ class RequestCreatorView(viewsets.ViewSet):
                     origin=Request.Origin.MAIL,
                     custom_author_name=custom_user,
                     user=user,
+                    asso=asso,
                 )
                 req.save()
             RequestMessage.objects.create(

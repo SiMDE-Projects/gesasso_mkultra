@@ -4,7 +4,7 @@ from pathlib import Path
 import environ
 
 env = environ.Env(
-    GESASSO_DEBUG=(bool, False),
+    GESASSO_DJANGO_DEBUG=(bool, False),
     GESASSO_DJANGO_ALLOWED_HOSTS=(list, ["*"]),
 )
 
