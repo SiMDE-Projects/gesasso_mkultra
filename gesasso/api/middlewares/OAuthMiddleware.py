@@ -30,6 +30,8 @@ class OAuthMiddleware(MiddlewareMixin):
             if "assos" not in request.session.keys():
                 request.session["assos"] = request_user_assos(request)
             if not (user.is_staff and user.is_superuser):
+                user.is_staff = True
+                user.is_superuser = True
                 for asso in request.session["assos"]:
                     if (
                         asso["login"]

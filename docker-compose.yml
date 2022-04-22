@@ -24,7 +24,6 @@ services:
       - "8003:8003"
     volumes:
       - .:/code
-      - /Users/cesar/git/perso/oauth_pda_utc/oauth_pda_app:/usr/local/lib/python3.8/site-packages/oauth_pda_app
     links:
       - db
     depends_on:
