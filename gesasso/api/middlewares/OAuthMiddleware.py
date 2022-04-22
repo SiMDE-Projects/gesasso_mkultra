@@ -43,9 +43,7 @@ class OAuthMiddleware(MiddlewareMixin):
                     response = redirect(env("GESASSO_BASE_URL") + "oauth/logout")
                     return response
             with atomic():
-                if not (user.is_staff and user.is_superuser):
-                    user.is_staff = True
-                user.is_superuser = True
+            if not (user.is_staff and user.is_superuser):
                 for asso in request.session["assos"]:
                     if (
                         asso["login"]
