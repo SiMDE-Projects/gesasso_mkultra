@@ -43,18 +43,19 @@ class OAuthMiddleware(MiddlewareMixin):
                     response = redirect(env("GESASSO_BASE_URL") + "oauth/logout")
                     return response
             with atomic():
-            if not (user.is_staff and user.is_superuser):
-                for asso in request.session["assos"]:
-                    if (
-                        asso["login"]
-                        == "simde"
-                        # and asso["pivot"]["role_id"] == "5e12fc00-3af5-11e9-a2eb-bda2ff28d348"
-                    ):
-                        logger.info("User is a simde's member")
-                        user.is_staff = True
-                        user.is_superuser = True
-                        user.save()
-                        breakmr = MailRequest.objects.filter(
+                if not (user.is_staff and user.is_superuser):
+                    for asso in request.session["assos"]:
+                        if (
+                            asso["login"]
+                            == "simde"
+                            # and asso["pivot"]["role_id"] == "5e12fc00-3af5-11e9-a2eb-bda2ff28d348"
+                        ):
+                            logger.info("User is a simde's member")
+                            user.is_staff = True
+                            user.is_superuser = True
+                            user.save()
+                            break
+                mr = MailRequest.objects.filter(
                     mail_from=request.user.email, request__user=None
                 )
                 for m in mr:
