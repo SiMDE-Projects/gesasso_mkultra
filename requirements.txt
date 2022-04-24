@@ -10,8 +10,6 @@ attrs==21.4.0
     # via
     #   jsonschema
     #   pytest
-backports-zoneinfo==0.2.1
-    # via django
 black==22.1.0
     # via -r requirements.in
 certifi==2021.10.8
@@ -40,7 +38,7 @@ distlib==0.3.4
     # via virtualenv
 dj-database-url==0.5.0
     # via -r requirements.in
-django==4.0.2
+django==4.0.4
     # via
     #   -r requirements.in
     #   django-cors-headers
@@ -103,8 +101,6 @@ identify==2.4.9
     # via pre-commit
 idna==3.3
     # via requests
-importlib-resources==5.4.0
-    # via jsonschema
 inflection==0.5.1
     # via drf-spectacular
 iniconfig==1.1.1
@@ -205,8 +201,6 @@ tomli==2.0.1
     #   coverage
     #   pep517
     #   pytest
-typing-extensions==4.0.1
-    # via black
 uritemplate==4.1.1
     # via drf-spectacular
 urllib3==1.26.8
@@ -219,8 +213,6 @@ watchdog==2.1.6
     # via pytest-watch
 wheel==0.37.1
     # via pip-tools
-zipp==3.7.0
-    # via importlib-resources
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
