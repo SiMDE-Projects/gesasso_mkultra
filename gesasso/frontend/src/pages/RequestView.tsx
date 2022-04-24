@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import {
   Grid, Header, Icon, Label, Segment,
 } from 'semantic-ui-react';
+import csrfToken from '@gesasso/utils/csrfToken';
 import 'moment/locale/fr';
 import RequestStatusSelector from '@gesasso/components/RequestStatusSelector';
 
@@ -51,6 +52,22 @@ const RequestView = () => {
       setMessagesLoading(false);
     });
 
+  const handleStatusChange = (status) => {
+    fetch(`${process.env.GESASSO_BASE_URL}/api/requests/${id}/`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken(),
+      },
+      body: JSON.stringify({ status }),
+    }).then((response) => {
+      if (response.status === 200) {
+        fetchRequest();
+        fetchMessages();
+      }
+    });
+  };
+
   useEffect(() => {
     fetchRequest();
     fetchMessages();
@@ -92,7 +109,14 @@ const RequestView = () => {
               </Header>
             </Grid.Column>
             <Grid.Column style={{ textAlign: 'right' }}>
-              <RequestStatusSelector />
+              <RequestStatusSelector
+                value={request.status}
+                disabled={loading}
+                onChange={(status) => {
+                  setLoading(true);
+                  handleStatusChange(status);
+                }}
+              />
             </Grid.Column>
           </Grid.Row>
 
