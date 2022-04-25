@@ -16,7 +16,6 @@ jobs:
         with:
           node-version: '16.x'
           cache: 'yarn'
-
       - name: Install dependencies 📦
         run: yarn install --frozen-lockfile
       - uses: pre-commit/action@v2.0.3
