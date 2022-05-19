@@ -3,10 +3,10 @@ import random
 from django.core.management.base import BaseCommand
 from django.db import transaction
 from oauth_pda_app.models import User
-from gesasso.proxy_pda.models import Asso
 
 from gesasso.api.factories import UserFactory, RequestFactory, RequestMessageFactory
-from gesasso.api.models import Request, RequestMessage, Action, ActionType
+from gesasso.api.models import Request, RequestMessage
+from gesasso.proxy_pda.models import Asso
 
 NUM_USERS = 10
 NUM_REQUESTS = 10
@@ -22,8 +22,6 @@ class Command(BaseCommand):
         models = [
             RequestMessage,
             Request,
-            Action,
-            ActionType,
             User,
             Asso,
         ]

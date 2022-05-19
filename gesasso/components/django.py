@@ -19,6 +19,8 @@ DEBUG = env.bool("GESASSO_DJANGO_DEBUG")
 
 ALLOWED_HOSTS = env.list("GESASSO_DJANGO_ALLOWED_HOSTS")
 
+CSRF_TRUSTED_ORIGINS = ["https://*", "http://*"]
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",

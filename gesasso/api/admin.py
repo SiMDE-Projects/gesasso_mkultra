@@ -4,8 +4,8 @@ from django.urls import reverse
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
-from gesasso.api.models import Action, ActionType, Request
-from gesasso.api.models import RequestMessage
+from gesasso.api.models import Request, Attachement, RequestMessage
+from gesasso.api.models import Team
 
 
 @admin.register(LogEntry)
@@ -54,11 +54,6 @@ class LogAdmin(admin.ModelAdmin):
     ]
 
 
-@admin.register(ActionType)
-class ActionTypeAdmin(admin.ModelAdmin):
-    pass
-
-
 @admin.register(RequestMessage)
 class RequestMessageAdmin(admin.ModelAdmin):
     pass
@@ -74,9 +69,21 @@ class RequestAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(Action)
-class ActionAdmin(admin.ModelAdmin):
+@admin.register(Team)
+class TeamAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(Attachement)
+class Attachement(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
 
 
 admin.site.site_header = "Gesasso MK_Ultra"

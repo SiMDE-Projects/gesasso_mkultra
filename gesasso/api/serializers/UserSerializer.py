@@ -17,4 +17,5 @@ class UserSerializer(serializers.ModelSerializer):
             "full_name",
             "email",
             "groups",
+            "teams",
         ]
