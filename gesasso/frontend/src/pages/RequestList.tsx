@@ -10,7 +10,7 @@ const RequestList = () => {
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {
-    fetch(`${process.env.GESASSO_BASE_URL}/api/requests/`)
+    fetch(`${process.env.GESASSO_BASE_URL}api/requests/`)
       .then((response) => {
         if (response.status === 200) {
           return response.json();
