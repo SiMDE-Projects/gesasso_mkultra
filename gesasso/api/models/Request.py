@@ -51,4 +51,3 @@ class Request(TimeStampable):
     origin = models.CharField(
         choices=Origin.choices, default=Origin.DIRECT, max_length=30
     )
-    actions = models.ManyToManyField("Action", blank=True)

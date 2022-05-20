@@ -22,7 +22,7 @@ const RequestView = () => {
   const [loading, setLoading] = useState(true);
   const [messagesLoading, setMessagesLoading] = useState(true);
 
-  const fetchRequest = () => fetch(`${process.env.GESASSO_BASE_URL}/api/requests/${id}/`)
+  const fetchRequest = () => fetch(`${process.env.GESASSO_BASE_URL}api/requests/${id}/`)
     .then((response) => {
       if (response.status === 200) {
         return response.json();
@@ -36,7 +36,7 @@ const RequestView = () => {
       setLoading(false);
     });
 
-  const fetchMessages = () => fetch(`${process.env.GESASSO_BASE_URL}/api/request_messages/?request=${id}`)
+  const fetchMessages = () => fetch(`${process.env.GESASSO_BASE_URL}api/request_messages/?request=${id}`)
     .then((response) => {
       if (response.status === 200) {
         return response.json();

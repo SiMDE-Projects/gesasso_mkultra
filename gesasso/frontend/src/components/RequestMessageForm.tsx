@@ -11,7 +11,7 @@ const RequestMessagesForm = ({ request, onSubmit }) => {
   const handleSubmit = (e) => {
     setBusy(true);
     e.preventDefault();
-    fetch(`${process.env.GESASSO_BASE_URL}/api/request_messages/`, {
+    fetch(`${process.env.GESASSO_BASE_URL}api/request_messages/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

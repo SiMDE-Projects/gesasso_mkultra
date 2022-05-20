@@ -1,7 +1,9 @@
+import base64
 import logging
 import re
 
 import jwt
+from django.core.files.base import ContentFile
 from django.db.transaction import atomic
 from django.views.decorators.csrf import csrf_exempt
 from oauth_pda_app.models import User
@@ -68,7 +70,7 @@ class RequestCreatorView(viewsets.ViewSet):
                     asso=asso,
                 )
                 req.save()
-            RequestMessage.objects.create(
+            rm = RequestMessage.objects.create(
                 request=req,
                 message=body,
                 origin=RequestMessage.Origin.MAIL,
@@ -83,6 +85,19 @@ class RequestCreatorView(viewsets.ViewSet):
                     mail_subject=subject,
                     mail_body=body,
                 )
+                if decoded["attachements"]:
+                    for att in decoded["attachements"]:
+                        att_data = ContentFile(
+                            base64.b64decode(att["content"]), att["name"]
+                        )
+                        att_name = att["name"]
+                        att_type = att["type"]
+                        rm.attachements.create(
+                            name=att_name,
+                            type=att_type,
+                            data=att_data,
+                        )
             else:
                 raise ValidationError("Unknown Gesasso agent")
+
         return Response({"id": req.id}, status=status.HTTP_201_CREATED)
