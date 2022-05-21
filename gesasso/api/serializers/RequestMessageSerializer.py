@@ -1,13 +1,15 @@
 from rest_framework import serializers
 
 from gesasso.api.models import RequestMessage
+from gesasso.api.serializers.AttachementSerializer import AttachementSerializer
 from gesasso.api.serializers.UserSerializer import UserSerializer
 
 
-class RequestMessageSerializer(serializers.HyperlinkedModelSerializer):
+class RequestMessageSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     type = serializers.ChoiceField(choices=RequestMessage.Types)
     origin = serializers.ChoiceField(choices=RequestMessage.Origin)
+    attachements = AttachementSerializer(many=True, read_only=True)
 
     def get_type(self, obj):
         return obj.get_type_display()
@@ -18,7 +20,6 @@ class RequestMessageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = RequestMessage
         fields = [
-            "url",
             "id",
             "request",
             "user",
@@ -27,4 +28,5 @@ class RequestMessageSerializer(serializers.HyperlinkedModelSerializer):
             "type",
             "origin",
             "created",
+            "attachements",
         ]
