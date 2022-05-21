@@ -82,6 +82,11 @@ const FeedMessage = ({ message }) => {
                 </Feed.Date>
               </Feed.Summary>
               <Feed.Extra text>{message.message.split('\n').map((x) => <div>{x}</div>)}</Feed.Extra>
+              {message.attachements.map((x) => (
+                <Feed.Extra text key={x.id}>
+                  <a href={x.data}>{x.name}</a>
+                </Feed.Extra>
+              ))}
             </Feed.Content>
           </Feed.Event>
         );
@@ -103,8 +108,15 @@ FeedMessage.propTypes = {
     type: PropTypes.string.isRequired,
     user: PropTypes.shape({
       full_name: PropTypes.string.isRequired,
-    }).isRequired,
+    }),
     message: PropTypes.string.isRequired,
+    attachements: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      data: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      created: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+    })),
     custom_author_name: PropTypes.string,
     created: PropTypes.string.isRequired,
   }).isRequired,

@@ -33,21 +33,20 @@ const RequestListRow = ({ request }) => {
       </Table.Cell>
       <Table.Cell>
         {
-                    request.due_date
-                      ? (
-                        <>
-                          <Moment locale="fr" format="LLLL">{request.due_date}</Moment>
-                          <Label>
-                            <Moment to={request.due_date} />
-                          </Label>
-                        </>
-                      )
-                      : (
-                        <Label>
-                          No due date
-                        </Label>
-                      )
-                }
+          request.due_date
+            ? (
+              <>
+                <Moment locale="fr" format="LLLL">{request.due_date}</Moment>
+                <Label>
+                  <Moment to={request.due_date} />
+                </Label>
+              </>
+            ) : (
+              <Label>
+                No due date
+              </Label>
+            )
+        }
       </Table.Cell>
       <Table.Cell>
         <Button
@@ -69,25 +68,15 @@ RequestListRow.propTypes = {
     id: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-
     asso: PropTypes.shape({
       shortname: PropTypes.string.isRequired,
-    }).isRequired,
+    }),
     user: PropTypes.shape({
       full_name: PropTypes.string.isRequired,
-    }).isRequired,
+    }),
     custom_author_name: PropTypes.string,
-    message: PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
-      user: PropTypes.shape({
-        full_name: PropTypes.string.isRequired,
-      }).isRequired,
-      message: PropTypes.string.isRequired,
-      created: PropTypes.string.isRequired,
-    }).isRequired,
     origin: PropTypes.string.isRequired,
-    due_date: PropTypes.string.isRequired,
+    due_date: PropTypes.string,
   }).isRequired,
 };
 

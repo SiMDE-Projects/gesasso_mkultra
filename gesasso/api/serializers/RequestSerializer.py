@@ -6,7 +6,7 @@ from . import RequestMessageSerializer
 from .UserSerializer import UserSerializer
 
 
-class RequestSerializer(serializers.HyperlinkedModelSerializer):
+class RequestSerializer(serializers.ModelSerializer):
     asso = AssoSerializer(read_only=True)
     user = UserSerializer(read_only=True)
     messages = RequestMessageSerializer(many=True, read_only=True)
