@@ -5,6 +5,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
+if (process.env.GESASSO_BASE_URL === undefined) {
+  process.env.GESASSO_BASE_URL = '';
+}
+
 module.exports = {
   entry: {
     frontend: './gesasso/frontend/src/index.tsx',

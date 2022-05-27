@@ -45,3 +45,20 @@ class RequestViewSet(TrackerMixin, viewsets.ModelViewSet):
                 message=self.request.data["message"],
             )
         super(RequestViewSet, self).perform_create(serializer)
+
+    def perform_update(self, serializer):
+        """
+        Override the default perform_update method to add a RequestMessage if status changed
+        """
+        if serializer.validated_data.get("status"):
+            with atomic():
+                RequestMessage.objects.create(
+                    request=serializer.instance,
+                    type="INFO",
+                    user=self.request.user,
+                    message="Status changed to {} by {}".format(
+                        serializer.validated_data.get("status"),
+                        self.request.user.full_name,
+                    ),
+                )
+        super(RequestViewSet, self).perform_update(serializer)
