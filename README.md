@@ -11,7 +11,7 @@
    a `docker-compose.override.yml` file at repository's root containing these values:
 
 ```dockerfile
-version: "3.8"
+version: "3.9"
 services:
   web:
     environment:
@@ -43,7 +43,8 @@ add/remove/update an API route, you can regenerate the OpenAPI documentation fil
 
 - Code format `docker compose run --rm web black /code`
 - Code style `docker compose run --rm web flake8 gesasso`
-- Generate openApi file `docker compose run --rm web ./manage.py generateschema --file openapi-schema.yml`
+- Generate openApi
+  file `docker compose run --rm web ./manage.py generateschema --file openapi-schema.yml --title Gesasso`
 
 ## Update requirements.txt file
 
