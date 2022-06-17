@@ -1,22 +1,10 @@
-ARG BASE=builder
-#
-#FROM node:alpine as front_builder
-#WORKDIR /code
-#
-#ARG NODE_ENV=production
-#ENV NODE_ENV=${NODE_ENV}
-#ADD package.json /code/package.json
-#RUN yarn install
-#ADD . /code
-#RUN yarn build
-
-FROM python:3.8-buster AS builder
+FROM python:3.8-buster
 MAINTAINER Cesar Richard <cesar.richard2@gmail.com>
 
 ENV PYTHONUNBUFFERED 1
 
 # Setup working directory
-RUN mkdir -p /code /home/gesasso/.ssh /static
+RUN mkdir -p /code /home/gesasso/.ssh /static /tmp/uploads/attachements
 WORKDIR /code
 
 # Setup user
@@ -38,8 +26,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Uwsgi runs on port 8003
 EXPOSE 8003
-
-#COPY --from=front_builder /code/node_modules.bin.txt /code/node_modules.bin.txt
 
 # Add code
 ADD . /code/

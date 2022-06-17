@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
 
 export interface IAssoSelectorProps {
-  onChange(value: string): void;
-
   value: string;
   fluid: boolean;
   placeholder: string;
+
+  onChange(value: string): void;
 }
 
 const UserSelector = ({
