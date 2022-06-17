@@ -23,7 +23,7 @@ RequestMessagesFeed.propTypes = {
     id: PropTypes.number.isRequired,
     user: PropTypes.shape({
       full_name: PropTypes.string.isRequired,
-    }).isRequired,
+    }),
     custom_author_name: PropTypes.string,
     message: PropTypes.string.isRequired,
     created: PropTypes.string.isRequired,

@@ -12,13 +12,15 @@ services:
   web:
     build: ""
     environment:
+      GESASSO_EMAIL_HOST: "mailserver"
       GESASSO_DJANGO_SECRET: "mysupersecretsecret"
       GESASSO_DJANGO_DEBUG: "True"
       GESASSO_DJANGO_ALLOWED_HOSTS: "*"
       GESASSO_DB_DEFAULT: "mysql://root:gesasso@db/gesasso"
+      GESASSO_EMAIL_SUBJECT_PREFIX: "[gesasso] "
       GESASSO_OAUTH_SETTINGS_ID: "YOUR_ID"
       GESASSO_OAUTH_SETTINGS_SECRET: "YOUR_SECRET"
-      GESASSO_LOG_LEVEL: "INFO"
+      GESASSO_LOGLEVEL: "INFO"
       GESASSO_DISABLE_SYNC_ASSOS: "True"
     ports:
       - "8003:8003"
@@ -29,3 +31,6 @@ services:
       - db
     depends_on:
       - db
+networks:
+  default:
+    name: external-example

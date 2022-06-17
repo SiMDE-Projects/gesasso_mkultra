@@ -1,18 +1,18 @@
 {
-  presets: [
+  "presets": [
     [
-      '@babel/env',
+      "@babel/env",
       {
-        exclude: [
-          'proposal-dynamic-import'
+        "exclude": [
+          "proposal-dynamic-import"
         ]
       }
     ],
     [
-      '@babel/preset-react',
+      "@babel/preset-react",
       {
-        exclude: [
-          'proposal-dynamic-import'
+        "exclude": [
+          "proposal-dynamic-import"
         ]
       }
     ]

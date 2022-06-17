@@ -19,7 +19,7 @@ const RequestMessagesForm = ({ request, onSubmit }) => {
       },
       body: JSON.stringify({
         message,
-        request: request.url,
+        request: request.id,
         type: isPrivate ? 'INTERNAL' : 'PUBLIC',
         origin: 'WEB',
       }),

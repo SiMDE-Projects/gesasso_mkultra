@@ -38,6 +38,10 @@ class Request(TimeStampable):
         DIRECT = "DIRECT", "DIRECT"
         MERGE = "MERGE", "MERGE"
 
+    origin = models.CharField(
+        choices=Origin.choices, default=Origin.DIRECT, max_length=30
+    )
+
     id = models.AutoField(primary_key=True)
     title = models.CharField(blank=False, null=False, max_length=150)
     due_date = models.DateTimeField(blank=True, null=True)
@@ -47,7 +51,4 @@ class Request(TimeStampable):
     asso = models.ForeignKey(Asso, on_delete=models.CASCADE, null=True)
     status = models.CharField(
         choices=Status.choices, default=Status.OPEN, max_length=30
-    )
-    origin = models.CharField(
-        choices=Origin.choices, default=Origin.DIRECT, max_length=30
     )

@@ -1,5 +1,6 @@
 import logging
 
+from django.core.mail import send_mail
 from django.db.models import Q
 from django.db.transaction import atomic
 from rest_framework import viewsets, permissions
@@ -43,4 +44,10 @@ class RequestMessageViewSet(TrackerMixin, viewsets.ModelViewSet):
         """
         with atomic():
             serializer.save(user=self.request.user)
+            send_mail(
+                serializer.instance.request.title,
+                serializer.instance.message,
+                "gesasso@assos.utc.fr",
+                ["cesar@assos.utc.fr"],
+            )
         super(RequestMessageViewSet, self).perform_create(serializer)

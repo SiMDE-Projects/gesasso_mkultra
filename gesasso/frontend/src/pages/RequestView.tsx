@@ -53,7 +53,7 @@ const RequestView = () => {
     });
 
   const handleStatusChange = (status) => {
-    fetch(`${process.env.GESASSO_BASE_URL}/api/requests/${id}/`, {
+    fetch(`${process.env.GESASSO_BASE_URL}api/requests/${id}/`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -123,12 +123,12 @@ const RequestView = () => {
         </Grid>
 
         {
-                    messagesLoading ? (
-                      <LoaderOverlay content="Loading messages ..." />
-                    ) : (
-                      <RequestMessagesFeed messages={messages} />
-                    )
-                }
+          messagesLoading ? (
+            <LoaderOverlay content="Loading messages ..." />
+          ) : (
+            <RequestMessagesFeed messages={messages} />
+          )
+        }
         <RequestMessageForm
           request={request}
           onSubmit={() => {

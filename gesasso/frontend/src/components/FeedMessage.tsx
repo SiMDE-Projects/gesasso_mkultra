@@ -96,7 +96,7 @@ const FeedMessage = ({ message }) => {
   };
 
   return (
-    <Suspense fallback={<LoaderOverlay />}>
+    <Suspense key={message.id} fallback={<LoaderOverlay />}>
       {generateMessage()}
     </Suspense>
   );

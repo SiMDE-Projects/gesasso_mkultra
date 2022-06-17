@@ -1,5 +1,6 @@
 import logging
 
+from django.core.mail import send_mail
 from django.db.transaction import atomic
 from rest_framework import viewsets, permissions
 
@@ -52,7 +53,7 @@ class RequestViewSet(TrackerMixin, viewsets.ModelViewSet):
         """
         if serializer.validated_data.get("status"):
             with atomic():
-                RequestMessage.objects.create(
+                message = RequestMessage.objects.create(
                     request=serializer.instance,
                     type="INFO",
                     user=self.request.user,
@@ -60,5 +61,11 @@ class RequestViewSet(TrackerMixin, viewsets.ModelViewSet):
                         serializer.validated_data.get("status"),
                         self.request.user.full_name,
                     ),
+                )
+                send_mail(
+                    message.request.title,
+                    message.message,
+                    "gesasso@assos.utc.fr",
+                    ["cesar@assos.utc.fr"],
                 )
         super(RequestViewSet, self).perform_update(serializer)
