@@ -8,6 +8,7 @@ import 'semantic-ui-css/semantic.min.css';
 Sentry.init({
   dsn: 'https://0741301057b7434c82d55b66b58e5799@o1296214.ingest.sentry.io/6522752',
   integrations: [new BrowserTracing()],
+  environment: 'developpement',
   tracesSampleRate: 1.0,
 });
 
