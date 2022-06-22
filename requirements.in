@@ -31,3 +31,4 @@ pytest-lazy-fixture>=0.6
 pytest-watch>=4.2
 pytz
 responses>=0.18
+sentry-sdk
