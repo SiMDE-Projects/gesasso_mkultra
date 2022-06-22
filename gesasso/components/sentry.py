@@ -3,19 +3,15 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
 env = environ.Env(
-    GESASSO_SENTRY_DSN=(str, ""),
+    GESASSO_SENTRY_DSN=(str, ""), GESASSO_SENTRY_ENV=(str, "developpement")
 )
 
 sentry_sdk.init(
     dsn=env("GESASSO_SENTRY_DSN"),
+    environment=env("GESASSO_SENTRY_ENV"),
     integrations=[
         DjangoIntegration(),
     ],
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
-    # We recommend adjusting this value in production.
     traces_sample_rate=1.0,
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
     send_default_pii=True,
 )
