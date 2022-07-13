@@ -8,7 +8,7 @@ on:
 
 jobs:
   pre-commit:
-    runs-on: [self-hosted, ubuntu-latest]
+    runs-on: [self-hosted, ubuntu-latest, Windows]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
